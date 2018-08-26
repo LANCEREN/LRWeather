@@ -8,23 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		35F6A7D32132BDEC00DF6AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6A7D22132BDEC00DF6AC3 /* AppDelegate.swift */; };
-		35F6A7D52132BDEC00DF6AC3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6A7D42132BDEC00DF6AC3 /* ViewController.swift */; };
 		35F6A7D82132BDEC00DF6AC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35F6A7D62132BDEC00DF6AC3 /* Main.storyboard */; };
 		35F6A7DB2132BDEC00DF6AC3 /* LRWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35F6A7D92132BDEC00DF6AC3 /* LRWeather.xcdatamodeld */; };
 		35F6A7DD2132BDEC00DF6AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35F6A7DC2132BDEC00DF6AC3 /* Assets.xcassets */; };
 		35F6A7E02132BDEC00DF6AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35F6A7DE2132BDEC00DF6AC3 /* LaunchScreen.storyboard */; };
+		35F6A7E92132CA4F00DF6AC3 /* DemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6A7E72132CA4F00DF6AC3 /* DemoCell.swift */; };
+		35F6A7EA2132CA4F00DF6AC3 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6A7E82132CA4F00DF6AC3 /* MainTableViewController.swift */; };
 		9270F00F13C6E92CA5E6BFDB /* Pods_LRWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9334F2B70DD23B28BFDD6D /* Pods_LRWeather.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		35F6A7CF2132BDEC00DF6AC3 /* LRWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LRWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F6A7D22132BDEC00DF6AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		35F6A7D42132BDEC00DF6AC3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		35F6A7D72132BDEC00DF6AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		35F6A7DA2132BDEC00DF6AC3 /* LRWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LRWeather.xcdatamodel; sourceTree = "<group>"; };
 		35F6A7DC2132BDEC00DF6AC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35F6A7DF2132BDEC00DF6AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		35F6A7E12132BDEC00DF6AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35F6A7E72132CA4F00DF6AC3 /* DemoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCell.swift; sourceTree = "<group>"; };
+		35F6A7E82132CA4F00DF6AC3 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		950BA3D9CDCADCE9B3E631CB /* Pods-LRWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LRWeather.release.xcconfig"; path = "Pods/Target Support Files/Pods-LRWeather/Pods-LRWeather.release.xcconfig"; sourceTree = "<group>"; };
 		C3DA35B144061604CFC342A6 /* Pods-LRWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LRWeather.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LRWeather/Pods-LRWeather.debug.xcconfig"; sourceTree = "<group>"; };
 		ED9334F2B70DD23B28BFDD6D /* Pods_LRWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LRWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,10 +82,11 @@
 		35F6A7D12132BDEC00DF6AC3 /* LRWeather */ = {
 			isa = PBXGroup;
 			children = (
+				35F6A7E72132CA4F00DF6AC3 /* DemoCell.swift */,
+				35F6A7E82132CA4F00DF6AC3 /* MainTableViewController.swift */,
 				35F6A7D22132BDEC00DF6AC3 /* AppDelegate.swift */,
-				35F6A7D42132BDEC00DF6AC3 /* ViewController.swift */,
-				35F6A7D62132BDEC00DF6AC3 /* Main.storyboard */,
 				35F6A7DC2132BDEC00DF6AC3 /* Assets.xcassets */,
+				35F6A7D62132BDEC00DF6AC3 /* Main.storyboard */,
 				35F6A7DE2132BDEC00DF6AC3 /* LaunchScreen.storyboard */,
 				35F6A7E12132BDEC00DF6AC3 /* Info.plist */,
 				35F6A7D92132BDEC00DF6AC3 /* LRWeather.xcdatamodeld */,
@@ -185,12 +188,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LRWeather/Pods-LRWeather-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FoldingCell/FoldingCell.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FoldingCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -207,9 +212,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35F6A7D52132BDEC00DF6AC3 /* ViewController.swift in Sources */,
+				35F6A7EA2132CA4F00DF6AC3 /* MainTableViewController.swift in Sources */,
 				35F6A7DB2132BDEC00DF6AC3 /* LRWeather.xcdatamodeld in Sources */,
 				35F6A7D32132BDEC00DF6AC3 /* AppDelegate.swift in Sources */,
+				35F6A7E92132CA4F00DF6AC3 /* DemoCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +292,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -340,7 +346,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
