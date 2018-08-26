@@ -13,6 +13,7 @@
 		35F6A7DB2132BDEC00DF6AC3 /* LRWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35F6A7D92132BDEC00DF6AC3 /* LRWeather.xcdatamodeld */; };
 		35F6A7DD2132BDEC00DF6AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35F6A7DC2132BDEC00DF6AC3 /* Assets.xcassets */; };
 		35F6A7E02132BDEC00DF6AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35F6A7DE2132BDEC00DF6AC3 /* LaunchScreen.storyboard */; };
+		9270F00F13C6E92CA5E6BFDB /* Pods_LRWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9334F2B70DD23B28BFDD6D /* Pods_LRWeather.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,9 @@
 		35F6A7DC2132BDEC00DF6AC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35F6A7DF2132BDEC00DF6AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		35F6A7E12132BDEC00DF6AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		950BA3D9CDCADCE9B3E631CB /* Pods-LRWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LRWeather.release.xcconfig"; path = "Pods/Target Support Files/Pods-LRWeather/Pods-LRWeather.release.xcconfig"; sourceTree = "<group>"; };
+		C3DA35B144061604CFC342A6 /* Pods-LRWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LRWeather.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LRWeather/Pods-LRWeather.debug.xcconfig"; sourceTree = "<group>"; };
+		ED9334F2B70DD23B28BFDD6D /* Pods_LRWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LRWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9270F00F13C6E92CA5E6BFDB /* Pods_LRWeather.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A97BCE5E68A0704A2CC745E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED9334F2B70DD23B28BFDD6D /* Pods_LRWeather.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1FDD5BB5205454B3F03FB874 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C3DA35B144061604CFC342A6 /* Pods-LRWeather.debug.xcconfig */,
+				950BA3D9CDCADCE9B3E631CB /* Pods-LRWeather.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		35F6A7C62132BDEC00DF6AC3 = {
 			isa = PBXGroup;
 			children = (
 				35F6A7D12132BDEC00DF6AC3 /* LRWeather */,
 				35F6A7D02132BDEC00DF6AC3 /* Products */,
+				1FDD5BB5205454B3F03FB874 /* Pods */,
+				1A97BCE5E68A0704A2CC745E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,9 +98,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 35F6A7E42132BDEC00DF6AC3 /* Build configuration list for PBXNativeTarget "LRWeather" */;
 			buildPhases = (
+				3C9189D6877A9B08304319E5 /* [CP] Check Pods Manifest.lock */,
 				35F6A7CB2132BDEC00DF6AC3 /* Sources */,
 				35F6A7CC2132BDEC00DF6AC3 /* Frameworks */,
 				35F6A7CD2132BDEC00DF6AC3 /* Resources */,
+				DA24C93D931DA7F35DCF3263 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +158,49 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C9189D6877A9B08304319E5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LRWeather-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA24C93D931DA7F35DCF3263 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LRWeather/Pods-LRWeather-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LRWeather/Pods-LRWeather-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		35F6A7CB2132BDEC00DF6AC3 /* Sources */ = {
@@ -282,6 +351,7 @@
 		};
 		35F6A7E52132BDEC00DF6AC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C3DA35B144061604CFC342A6 /* Pods-LRWeather.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -300,6 +370,7 @@
 		};
 		35F6A7E62132BDEC00DF6AC3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 950BA3D9CDCADCE9B3E631CB /* Pods-LRWeather.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
