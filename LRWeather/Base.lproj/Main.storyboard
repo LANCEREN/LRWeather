@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -686,12 +687,62 @@
             </objects>
             <point key="canvasLocation" x="90" y="94"/>
         </scene>
+        <!--Weather View Controller-->
+        <scene sceneID="oCa-WL-3vS">
+            <objects>
+                <viewController id="Ydu-64-w1q" customClass="WeatherViewController" customModule="LRWeather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Kxm-AN-QJA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KVA-jD-UiY">
+                                <rect key="frame" x="0.0" y="20" width="375" height="607"/>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N7p-0B-7J3">
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zH3-fV-SkF">
+                                        <rect key="frame" x="10" y="10" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="YGY-rH-Ltx"/>
+                                            <constraint firstAttribute="width" constant="20" id="uVB-0R-VtN"/>
+                                        </constraints>
+                                        <state key="normal" image="menu"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.36589846869999998" green="0.62130121699999996" blue="0.84119224209999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="zH3-fV-SkF" firstAttribute="leading" secondItem="N7p-0B-7J3" secondAttribute="leading" constant="10" id="tWp-dD-u7x"/>
+                                    <constraint firstItem="zH3-fV-SkF" firstAttribute="centerY" secondItem="N7p-0B-7J3" secondAttribute="centerY" id="z9o-MB-MdR"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.36589846869999998" green="0.62130121699999996" blue="0.84119224209999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="N7p-0B-7J3" firstAttribute="top" secondItem="KVA-jD-UiY" secondAttribute="bottom" id="3W8-pD-Nrm"/>
+                            <constraint firstItem="6V4-zC-Ytq" firstAttribute="bottom" secondItem="KVA-jD-UiY" secondAttribute="bottom" constant="40" id="92I-Fb-BVM"/>
+                            <constraint firstItem="KVA-jD-UiY" firstAttribute="leading" secondItem="6V4-zC-Ytq" secondAttribute="leading" id="BFl-Re-gkH"/>
+                            <constraint firstItem="6V4-zC-Ytq" firstAttribute="trailing" secondItem="KVA-jD-UiY" secondAttribute="trailing" id="Tq8-xU-gC6"/>
+                            <constraint firstItem="N7p-0B-7J3" firstAttribute="centerX" secondItem="6V4-zC-Ytq" secondAttribute="centerX" id="aEU-T2-wtz"/>
+                            <constraint firstItem="KVA-jD-UiY" firstAttribute="top" secondItem="6V4-zC-Ytq" secondAttribute="top" id="lTA-V8-pg1"/>
+                            <constraint firstItem="KVA-jD-UiY" firstAttribute="centerX" secondItem="6V4-zC-Ytq" secondAttribute="centerX" id="mqz-Iq-mKH"/>
+                            <constraint firstItem="N7p-0B-7J3" firstAttribute="width" secondItem="Kxm-AN-QJA" secondAttribute="width" id="trD-jf-jfs"/>
+                            <constraint firstItem="N7p-0B-7J3" firstAttribute="bottom" secondItem="6V4-zC-Ytq" secondAttribute="bottom" id="zIe-Qy-Cfd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6V4-zC-Ytq"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jba-Wn-MoD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="897" y="96"/>
+        </scene>
     </scenes>
     <resources>
         <image name="arrow" width="16" height="25"/>
         <image name="burger" width="38" height="29"/>
         <image name="dots" width="14" height="84"/>
         <image name="image" width="340" height="165"/>
+        <image name="menu" width="16" height="16"/>
         <image name="photo" width="98" height="98"/>
         <image name="stars" width="97" height="17"/>
     </resources>
