@@ -6,6 +6,7 @@
 //  Copyright © 2015 Alex K. All rights reserved.
 //
 
+import FoldingCell
 import UIKit
 
 class DemoCell: FoldingCell {
