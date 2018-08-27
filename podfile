@@ -9,6 +9,7 @@ target 'LRWeather' do
   pod 'Hero', '~> 1.3.0'
   pod 'SwiftyJSON', '~> 4.1.0'
   pod 'FoldingCell', '~> 3.1.4'
+  pod 'MJRefresh', '~> 3.1.15.3'
   # Pods for LRWeather
 
 end

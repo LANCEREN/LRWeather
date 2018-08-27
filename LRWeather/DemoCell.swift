@@ -8,16 +8,19 @@
 
 import FoldingCell
 import UIKit
+import Hero
 
 class DemoCell: FoldingCell {
 
     @IBOutlet var closeNumberLabel: UILabel!
     @IBOutlet var openNumberLabel: UILabel!
-
-    var number: Int = 0 {
+    @IBOutlet weak var LocationImage1: UIImageView!
+    @IBOutlet weak var LocationImage2: UIImageView!
+    
+    var CellCityInfo: String = "--" {
         didSet {
-            closeNumberLabel.text = String(number)
-            openNumberLabel.text = String(number)
+            closeNumberLabel.text = String(CellCityInfo)
+            openNumberLabel.text = String(CellCityInfo)
         }
     }
 
@@ -36,8 +39,4 @@ class DemoCell: FoldingCell {
 // MARK: - Actions ⚡️
 
 extension DemoCell {
-
-    @IBAction func buttonHandler(_: AnyObject) {
-        print("tap")
-    }
 }

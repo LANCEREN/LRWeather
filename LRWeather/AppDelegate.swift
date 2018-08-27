@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var locationCityID: String = "" //当前城市ID
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        Thread.sleep(forTimeInterval:1) //延长1秒
         // Override point for customization after application launch.
         return true
     }

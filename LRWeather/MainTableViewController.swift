@@ -23,27 +23,60 @@
 
 import FoldingCell
 import UIKit
+import Hero
+import CoreData
+import CoreLocation
 
 class MainTableViewController: UITableViewController {
-
+    
+    var currLocation : CLLocation!//当前位置(经纬度)
+    let locationManager:CLLocationManager = CLLocationManager()//位置管理器
+    var fc : NSFetchedResultsController<CityInfo>! //coredata库的城市列表
+    var cityInfos : [CityInfo] = [] //收藏的城市信息（暂存）
+    var locationcity : String = ""//当前位置城市
+    var cityInfo: String = ""//需要显示的城市信息
+    
+    var CellNumber : Dictionary<Int,Int>?//两种cell的数量字典
+    
     enum Const {
         static let closeCellHeight: CGFloat = 179
         static let openCellHeight: CGFloat = 488
         static let rowsCount = 10
     }
-    
     var cellHeights: [CGFloat] = []
-
+    
     override func viewDidLoad() {
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = 5000
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        
+        self.CellNumber = [0:1,1:cityInfos.count]
+        self.hero.isEnabled = true
+        
         super.viewDidLoad()
+        fetchAllCityInfos()
         setup()
+        
     }
 
+    @IBAction func buttonjump(_ sender: Any) {
+        let view = UIStoryboard.init(name: "Main", bundle: Bundle.main)
+        let cityView = view.instantiateViewController(withIdentifier: "WeatherView")
+        cityView.hero.modalAnimationType = .selectBy(presenting: .pageOut(direction: .left), dismissing: .pageIn(direction: .right))
+        self.present(cityView, animated: true, completion: nil)
+        print("tap to WeatherViewController")
+    }
+    
     private func setup() {
+        loadingview()
         cellHeights = Array(repeating: Const.closeCellHeight, count: Const.rowsCount)
         tableView.estimatedRowHeight = Const.closeCellHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        tableView.separatorStyle = .none
         if #available(iOS 10.0, *) {
             tableView.refreshControl = UIRefreshControl()
             tableView.refreshControl?.addTarget(self, action: #selector(refreshHandler), for: .valueChanged)
@@ -55,71 +88,9 @@ class MainTableViewController: UITableViewController {
         DispatchQueue.main.asyncAfter(deadline: deadlineTime, execute: { [weak self] in
             if #available(iOS 10.0, *) {
                 self?.tableView.refreshControl?.endRefreshing()
-            } 
+            }
             self?.tableView.reloadData()
         })
     }
 }
 
-// MARK: - TableView
-
-extension MainTableViewController {
-
-    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return 10
-    }
-
-    override func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard case let cell as DemoCell = cell else {
-            return
-        }
-
-        cell.backgroundColor = .clear
-
-        if cellHeights[indexPath.row] == Const.closeCellHeight {
-            cell.unfold(false, animated: false, completion: nil)
-        } else {
-            cell.unfold(true, animated: false, completion: nil)
-        }
-
-        cell.number = indexPath.row
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FoldingCell", for: indexPath) as! FoldingCell
-        let durations: [TimeInterval] = [0.26, 0.2, 0.2]
-        cell.durationsForExpandedState = durations
-        cell.durationsForCollapsedState = durations
-        return cell
-    }
-
-    override func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return cellHeights[indexPath.row]
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        let cell = tableView.cellForRow(at: indexPath) as! FoldingCell
-
-        if cell.isAnimating() {
-            return
-        }
-
-        var duration = 0.0
-        let cellIsCollapsed = cellHeights[indexPath.row] == Const.closeCellHeight
-        if cellIsCollapsed {
-            cellHeights[indexPath.row] = Const.openCellHeight
-            cell.unfold(true, animated: true, completion: nil)
-            duration = 0.5
-        } else {
-            cellHeights[indexPath.row] = Const.closeCellHeight
-            cell.unfold(false, animated: true, completion: nil)
-            duration = 0.8
-        }
-
-        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: { () -> Void in
-            tableView.beginUpdates()
-            tableView.endUpdates()
-        }, completion: nil)
-    }
-}

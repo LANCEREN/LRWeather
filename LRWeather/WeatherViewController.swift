@@ -9,19 +9,17 @@
 import UIKit
 import SnapKit
 import Hero
-import CoreLocation
 import MJRefresh
 
 class WeatherViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
-    let locationManager:CLLocationManager = CLLocationManager()//位置管理器
+    
     var cityInfo: String = ""//需要显示的城市信息
     var futureWeatherArray : [String] = [] //存放未来一周天气信息的数组
     var futureWeatherDictionary: Dictionary<String, [String]> = [:]  //存放未来一周天气信息的字典
     let todayDate = Date() //当前日期
     let formatter = DateFormatter() //格式转换变量
     var isNight : Bool? //白天or夜间
-    var currLocation : CLLocation!//当前位置
     
     let header = MJRefreshNormalHeader() //刷新控件的基类
     
@@ -29,11 +27,7 @@ class WeatherViewController: UIViewController, UIScrollViewDelegate, UITableView
     @IBOutlet weak var weatherInfoScrollView: UIScrollView!
     @IBAction func menuBtn(_ sender: UIButton) {
         //跳转列表
-        let view = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-        let cityView = view.instantiateViewController(withIdentifier: "cityView")
-        cityView.hero.modalAnimationType = .selectBy(presenting: .pageOut(direction: .up), dismissing: .pageIn(direction: .down))
-        /*cityView.heroModalAnimationType = .selectBy(presenting: .pageOut(direction: .up), dismissing: .pageIn(direction: .down))*/
-        self.present(cityView, animated: true, completion: nil)
+        hero.dismissViewController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,19 +40,11 @@ class WeatherViewController: UIViewController, UIScrollViewDelegate, UITableView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 5000
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
-        //self.isHeroEnabled = true
+        
+        
         self.hero.isEnabled = true
         timeDayNight()
-        if #available(iOS 11.0, *) {
-            self.view.backgroundColor = isNight! ? UIColor(named: "w_nightblue") : UIColor(named: "w_lightblue")
-        } else {
-            // Fallback on earlier versions
-        } //背景颜色
+        self.view.backgroundColor = isNight! ? UIColor(named: "w_nightblue") : UIColor(named: "w_lightblue")
         bottomView.backgroundColor = self.view.backgroundColor
         self.weatherInfoScrollView.delegate = self
         header.setRefreshingTarget(self, refreshingAction: #selector(refresh))
@@ -478,91 +464,7 @@ extension String {
     }
 }
 
-//重点***定位当前城市
-extension WeatherViewController: CLLocationManagerDelegate {
-    //实现delegate方法
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.cityInfo == "" {
-            self.currLocation = locations.last
-            let geoCoder: CLGeocoder = CLGeocoder()
-            //反编译将经纬度转化为城市
-            geoCoder.reverseGeocodeLocation(locations.last!) { (marks, error) in
-                if error == nil {
-                    let mark: CLPlacemark = marks![0]
-                    //获得城市名 为方便后续操作将“市”字删除
-                    let city = mark.locality?.replacingOccurrences(of: "市", with: "")
-                    self.getCityData(nowCity: city!)
-                } else {
-                    print("\(error!)")
-                }
-                if marks?.count == 0 {
-                    return
-                        print("marks.count == 0 ,error")
-                }
-            }
-        }
-    }
-    ///获取全部城市名称信息
-    func getCityData(nowCity: String) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        //全部城市名称的json地址
-        let path = "http://api.k780.com/?app=weather.city&appkey=35717&sign=089478792dfe3d89fcbf6f5333eda713&format=json"
-        let url = NSURL(string: path)
-        let request = URLRequest(url: url! as URL)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { (data, response, error) in
-            if error == nil {
-                do {
-                    let json = try JSON(data: data!)
-                    let count: Int = json["result"].count
-                    //print("city \(json["result"])")
-                    let jsonDic = json["result"].dictionary!
-                    let sortedKeysAndValues = jsonDic.sorted(by: { (d1, d2) -> Bool in
-                        return d1 < d2 ? true : false
-                    })
-                    for i in 0..<count {
-                        //遍历 将定位得到的城市名分别于列表中的城市进行对比 如果相同则获得该城市的信息 完成定位功能
-                        let city = sortedKeysAndValues[i].value["citynm"].string!
-                        let id = sortedKeysAndValues[i].value["weaid"].string!
-                        if city == nowCity {
-                            self.cityInfo = id
-                            if appDelegate.cityInfo == "" {
-                                //将当前定位到的城市名存储到appDelegate中进行传值
-                                appDelegate.locationCity = city
-                                appDelegate.locationCityID = id
-                            }
-                        }
-                    }
-                    DispatchQueue.main.async {
-                        if appDelegate.cityInfo == "" {
-                            self.getWeatherData()
-                            self.getFutureWeatherData()
-                            self.getLifeData()
-                            self.getPMData()
-                            self.loadingAction()
-                        }
-                    }
-                } catch {
-                    print("Error creating the database")
-                }
-            } else {
-                print(error!)
-            }
-        }
-        task.resume()
-    }
-    ///加载预览界面动画
-    func loadingAction() {
-        //正在加载的预览界面动画 在定位成功后隐藏
-        let loadingView = self.view.viewWithTag(121)
-        UIView.animate(withDuration: 0.2, animations: {
-            loadingView?.alpha = 0
-        }) { (_) in
-            loadingView?.isHidden = true
-        }
-    }
-}
+
 
 extension WeatherViewController{
     func setUI() {
@@ -618,12 +520,9 @@ extension WeatherViewController{
         weatherInfoScrollView.addSubview(futureTableView)
         //分割线
         let lineView = UIView(frame: CGRect(x: 0, y: 570, width: weatherSize.screen_w, height: 0.5))
-        if #available(iOS 11.0, *) {
-            lineView.backgroundColor = isNight! ? UIColor(named: "w_darkblue") : UIColor(named: "w_blue")
-        } else {
-            // Fallback on earlier versions
-        }
+        lineView.backgroundColor = isNight! ? UIColor(named: "w_darkblue") : UIColor(named: "w_blue")
         weatherInfoScrollView.addSubview(lineView)
+        
         let otherInfoView = UIView()
         otherInfoView.backgroundColor = self.view.backgroundColor
         otherInfoView.frame = CGRect(x: 0, y: 580, width: weatherSize.screen_w, height: 240)
@@ -712,23 +611,6 @@ extension WeatherViewController{
             make.bottom.equalTo(weatherImage)
             make.right.equalTo(weatherImage).offset(-70)
         }
-        //定位预加载view
-        let loadingView = UIView(frame: self.view.frame)
-        loadingView.tag = 121
-        loadingView.backgroundColor = self.view.backgroundColor
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.cityInfo != "" {
-            loadingView.isHidden = true
-        } else {
-            loadingView.isHidden = false
-        }
-        self.view.addSubview(loadingView)
-        let loadingLabel = UILabel(frame: CGRect(x: 0, y: 200, width: weatherSize.screen_w, height: 100))
-        loadingLabel.text = "正在定位当前所在城市..."
-        loadingLabel.font = UIFont(name: "HelveticaNeue-Light", size: 16)
-        loadingLabel.textColor = UIColor.white
-        loadingLabel.textAlignment = .center
-        loadingView.addSubview(loadingLabel)
         
     }
     
