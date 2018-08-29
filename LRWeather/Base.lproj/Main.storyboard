@@ -17,12 +17,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="uhG-Et-I30">
+                            <rect key="frame" x="0.0" y="770" width="375" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2L-Vj-vqJ">
+                                    <rect key="frame" x="330" y="10" width="24" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Add" image="增加"/>
+                                    <connections>
+                                        <action selector="AddJump:" destination="RKM-Cd-XGl" eventType="touchUpInside" id="9oB-Vp-f9k"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHG-Vt-VB5">
+                                    <rect key="frame" x="24" y="7" width="25" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="menu" image="目录"/>
+                                </button>
+                            </subviews>
+                        </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FoldingCell" rowHeight="667" id="FVt-D8-zAR" customClass="DemoCell" customModule="LRWeather" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="667"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FoldingCell" rowHeight="742" id="FVt-D8-zAR" customClass="DemoCell" customModule="LRWeather" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="742"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FVt-D8-zAR" id="eVB-Uf-0zT">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="666.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="741.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rzO-wD-2a0" userLabel="Foreground" customClass="RotatedView" customModule="FoldingCell">
@@ -685,6 +704,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
+                                    <outlet property="Detail" destination="DPg-fZ-sD3" id="KjT-6P-ylT"/>
                                     <outlet property="LocationImage1" destination="neh-GA-Lag" id="bz5-2I-u5N"/>
                                     <outlet property="LocationImage2" destination="WXr-YW-P0b" id="OQB-MG-ylf"/>
                                     <outlet property="closeNumberLabel" destination="IrY-S3-IMK" id="GJI-J8-NoT"/>
@@ -705,6 +725,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h4L-9b-IXf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="88.799999999999997" y="93.103448275862078"/>
+        </scene>
+        <!--Add List View Controller-->
+        <scene sceneID="xuh-dp-8xE">
+            <objects>
+                <viewController storyboardIdentifier="AddListView" id="t0Y-3I-L0O" customClass="AddListViewController" customModule="LRWeather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JsY-mb-oLD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ldl-Zm-C2y">
+                                <rect key="frame" x="320" y="31" width="24" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="下拉箭头小"/>
+                                <connections>
+                                    <action selector="CancelToMain:" destination="t0Y-3I-L0O" eventType="touchUpInside" id="dFG-dO-3Tt"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="dnu-kH-JVF"/>
+                    </view>
+                    <connections>
+                        <outlet property="CancelButton" destination="Ldl-Zm-C2y" id="4hm-6q-3Am"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2fe-MM-kTQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="940" y="92.203898050974516"/>
         </scene>
         <!--Weather View Controller-->
         <scene sceneID="oCa-WL-3vS">
@@ -760,7 +808,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jba-Wn-MoD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="897" y="93"/>
+            <point key="canvasLocation" x="1689" y="93"/>
         </scene>
     </scenes>
     <resources>
@@ -772,5 +820,8 @@
         <image name="menu" width="16" height="16"/>
         <image name="photo" width="98" height="98"/>
         <image name="stars" width="97" height="17"/>
+        <image name="下拉箭头小" width="32" height="32"/>
+        <image name="增加" width="32" height="32"/>
+        <image name="目录" width="32" height="32"/>
     </resources>
 </document>

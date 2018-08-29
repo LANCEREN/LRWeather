@@ -45,7 +45,15 @@ extension MainTableViewController {
         let durations: [TimeInterval] = [0.26, 0.2, 0.2]
         cell.durationsForExpandedState = durations
         cell.durationsForCollapsedState = durations
-        cell.CellCityInfo = locationcity
+        // 定义阴影颜色
+        cell.Detail.layer.shadowColor = UIColor.gray.cgColor
+        // 阴影的模糊半径
+        cell.Detail.layer.shadowRadius = 2.4
+        // 阴影的偏移量
+        cell.Detail.layer.shadowOffset = CGSize(width: 0, height: 1)
+        // 阴影的透明度，默认为0，不设置则不会显示阴影****
+        cell.Detail.layer.shadowOpacity = 0.7
+        
         if indexPath.section == 0 {
             cell.LocationImage1.image = #imageLiteral(resourceName: "location")
             cell.LocationImage2.image = #imageLiteral(resourceName: "location")
@@ -57,7 +65,6 @@ extension MainTableViewController {
                 cell.CellCityInfo = cityInfos[indexPath.row].city!
             }
         }
-        
         return cell
     }
     
@@ -160,7 +167,6 @@ extension MainTableViewController: CLLocationManagerDelegate {
                 do {
                     let json = try JSON(data: data!)
                     let count: Int = json["result"].count
-                    //print("city \(json["result"])")
                     let jsonDic = json["result"].dictionary!
                     let sortedKeysAndValues = jsonDic.sorted(by: { (d1, d2) -> Bool in
                         return d1 < d2 ? true : false
@@ -170,12 +176,12 @@ extension MainTableViewController: CLLocationManagerDelegate {
                         let city = sortedKeysAndValues[i].value["citynm"].string!
                         let id = sortedKeysAndValues[i].value["weaid"].string!
                         if city == nowCity {
-                            //self.cityInfo = id
                             if appDelegate.cityInfo == "" {
                                 //将当前定位到的城市名存储到appDelegate中进行传值
                                 appDelegate.locationCity = city
                                 appDelegate.locationCityID = id
                                 self.locationcity = appDelegate.locationCity
+                                self.locationcityid = appDelegate.locationCityID
                             }
                         }
                     }
@@ -231,6 +237,5 @@ extension MainTableViewController {
         loadingLabel.textColor = UIColor.white
         loadingLabel.textAlignment = .center
         loadingView.addSubview(loadingLabel)
-        
     }
 }

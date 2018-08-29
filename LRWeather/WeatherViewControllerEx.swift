@@ -324,7 +324,7 @@ extension WeatherViewController{
     }
     ///解析json得到基本天气数据
     func getWeatherData() {
-        let path = "http://api.k780.com/?app=weather.today&weaid=\(cityInfo)&appkey=35717&sign=089478792dfe3d89fcbf6f5333eda713&format=json"
+        let path = "http://api.k780.com/?app=weather.today&weaid=\(cityInfoid)&appkey=35717&sign=089478792dfe3d89fcbf6f5333eda713&format=json"
         //转data
         let url = NSURL(string: path)
         let request = URLRequest(url: url! as URL)
@@ -358,7 +358,7 @@ extension WeatherViewController{
     }
     ///获取未来一周的信息
     func getFutureWeatherData() {
-        let path = "http://api.k780.com/?app=weather.future&weaid=\(cityInfo)&&appkey=35717&sign=089478792dfe3d89fcbf6f5333eda713&format=json"
+        let path = "http://api.k780.com/?app=weather.future&weaid=\(cityInfoid)&&appkey=35717&sign=089478792dfe3d89fcbf6f5333eda713&format=json"
         let url = NSURL(string: path)
         let request = URLRequest(url: url! as URL)
         let session = URLSession.shared
@@ -393,7 +393,7 @@ extension WeatherViewController{
     }
     ///获取生活指南信息：紫外线等
     func getLifeData() {
-        let path = "http://api.k780.com/?app=weather.lifeindex&weaid=\(cityInfo)&appkey=35717&sign=089478792dfe3d89fcbf6f5333eda713&format=json"
+        let path = "http://api.k780.com/?app=weather.lifeindex&weaid=\(cityInfoid)&appkey=35717&sign=089478792dfe3d89fcbf6f5333eda713&format=json"
         let url = NSURL(string: path)
         let request = URLRequest(url: url! as URL)
         let session = URLSession.shared
@@ -425,7 +425,7 @@ extension WeatherViewController{
     }
     ///获取空气质量及相关信息
     func getPMData() {
-        let path = "http://api.k780.com/?app=weather.pm25&weaid=\(cityInfo)&appkey=35717&sign=089478792dfe3d89fcbf6f5333eda713&format=json"
+        let path = "http://api.k780.com/?app=weather.pm25&weaid=\(cityInfoid)&appkey=35717&sign=089478792dfe3d89fcbf6f5333eda713&format=json"
         let url = NSURL(string: path)
         let request = URLRequest(url: url! as URL)
         let session = URLSession.shared

@@ -16,6 +16,7 @@ class DemoCell: FoldingCell {
     @IBOutlet var openNumberLabel: UILabel!
     @IBOutlet weak var LocationImage1: UIImageView!
     @IBOutlet weak var LocationImage2: UIImageView!
+    @IBOutlet weak var Detail: UIButton!
     
     var CellCityInfo: String = "--" {
         didSet {
@@ -34,9 +35,11 @@ class DemoCell: FoldingCell {
         let durations = [0.26, 0.2, 0.2]
         return durations[itemIndex]
     }
+    
 }
 
 // MARK: - Actions ⚡️
 
 extension DemoCell {
+    
 }

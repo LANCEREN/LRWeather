@@ -2,8 +2,8 @@
 //  WeatherViewController.swift
 //  Weather
 //
-//  Created by 高鑫 on 2017/10/23.
-//  Copyright © 2017年 高鑫. All rights reserved.
+//  Created by LANCEREN on 2018/8/22.
+//  Copyright © 2018年 LANCEREN. All rights reserved.
 //
 
 import UIKit
@@ -14,6 +14,7 @@ import MJRefresh
 class WeatherViewController: UIViewController{
     
     var cityInfo: String = ""//需要显示的城市信息
+    var cityInfoid: String = ""//需要显示的城市信息ID
     var futureWeatherArray : [String] = [] //存放未来一周天气信息的数组
     var futureWeatherDictionary: Dictionary<String, [String]> = [:]  //存放未来一周天气信息的字典
     let todayDate = Date() //当前日期
@@ -39,7 +40,7 @@ class WeatherViewController: UIViewController{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.hero.isEnabled = true
         timeDayNight()
         self.view.backgroundColor = isNight! ? UIColor(named: "w_nightblue") : UIColor(named: "w_lightblue")
@@ -54,9 +55,10 @@ class WeatherViewController: UIViewController{
         
         setUI()
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.cityInfo != "" {
+        if appDelegate.cityInfoID != "" {
             cityInfo = appDelegate.cityInfo
+            cityInfoid = appDelegate.cityInfoID
+            
             self.getWeatherData()
             self.getFutureWeatherData()
             self.getLifeData()
@@ -70,11 +72,10 @@ class WeatherViewController: UIViewController{
     
     @objc func dismissNotification(notification: Notification){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.cityInfo != "" {
-            cityInfo = appDelegate.cityInfo
-            print("\(cityInfo)")
+        if appDelegate.cityInfoID != "" {
+            cityInfoid = appDelegate.cityInfoID
         } else {
-            cityInfo = appDelegate.locationCityID
+            print("当前cityInfo为空,error")
         }
         self.getWeatherData()
         self.getFutureWeatherData()
@@ -84,8 +85,8 @@ class WeatherViewController: UIViewController{
     
     @objc func refresh() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.cityInfo != "" {
-            cityInfo = appDelegate.cityInfo
+        if appDelegate.cityInfoID != "" {
+            cityInfoid = appDelegate.cityInfoID
         }
         self.getWeatherData()
         self.getFutureWeatherData()

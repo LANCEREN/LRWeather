@@ -33,8 +33,10 @@ class MainTableViewController: UITableViewController {
     let locationManager:CLLocationManager = CLLocationManager()//位置管理器
     var fc : NSFetchedResultsController<CityInfo>! //coredata库的城市列表
     var cityInfos : [CityInfo] = [] //收藏的城市信息（暂存）
-    var locationcity : String = ""//当前位置城市
+    var locationcity : String = ""//当前位置城市用作label显示
+    var locationcityid : String = ""//当前城市ID方便URL
     var cityInfo: String = ""//需要显示的城市信息
+    var cityInfoid : String = ""//需要现实的城市信息id
     
     var CellNumber : Dictionary<Int,Int>?//两种cell的数量字典
     
@@ -43,7 +45,7 @@ class MainTableViewController: UITableViewController {
         static let openCellHeight: CGFloat = 488
         static let rowsCount = 10
     }
-    var cellHeights: [CGFloat] = []
+    var cellHeights: [CGFloat] = []//展开和折叠cell的高度
     
     override func viewDidLoad() {
         
@@ -61,14 +63,6 @@ class MainTableViewController: UITableViewController {
         setup()
         
     }
-
-    @IBAction func buttonjump(_ sender: Any) {
-        let view = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-        let cityView = view.instantiateViewController(withIdentifier: "WeatherView")
-        cityView.hero.modalAnimationType = .selectBy(presenting: .pageOut(direction: .left), dismissing: .pageIn(direction: .right))
-        self.present(cityView, animated: true, completion: nil)
-        print("tap to WeatherViewController")
-    }
     
     private func setup() {
         loadingview()
@@ -76,7 +70,7 @@ class MainTableViewController: UITableViewController {
         tableView.estimatedRowHeight = Const.closeCellHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .none//分割线消失
         if #available(iOS 10.0, *) {
             tableView.refreshControl = UIRefreshControl()
             tableView.refreshControl?.addTarget(self, action: #selector(refreshHandler), for: .valueChanged)
@@ -92,5 +86,37 @@ class MainTableViewController: UITableViewController {
             self?.tableView.reloadData()
         })
     }
+
+    @IBAction func buttonjump(_ sender: Any) {
+        
+        let btn : UIButton = sender as! UIButton
+        let cp : CGPoint = btn.convert(btn.bounds.origin, to: self.tableView)
+        let indexpath = self.tableView.indexPathForRow(at: cp)
+        if indexpath?.row == 0 {
+            self.cityInfo = locationcity
+            self.cityInfoid = locationcityid
+        } else {
+            self.cityInfo = cityInfos[indexpath!.row].city!
+            self.cityInfoid = cityInfos[indexpath!.row].id!
+        }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.cityInfo = self.cityInfo
+        appDelegate.cityInfoID = self.cityInfoid
+        
+        let view = UIStoryboard.init(name: "Main", bundle: Bundle.main)
+        let cityView = view.instantiateViewController(withIdentifier: "WeatherView")
+        cityView.hero.modalAnimationType = .selectBy(presenting: .pageOut(direction: .left), dismissing: .pageIn(direction: .right))
+        print("tap to WeatherViewController")
+        self.present(cityView, animated: true, completion: nil)
+    }
+    
+    @IBAction func AddJump(_ sender: Any) {
+        let view = UIStoryboard.init(name: "Main", bundle: Bundle.main)
+        let cityView = view.instantiateViewController(withIdentifier: "AddListView")
+        cityView.hero.modalAnimationType = .selectBy(presenting: .fade, dismissing: .uncover(direction: .down))
+        print("tap to AddListViewController")
+        self.present(cityView, animated: true, completion: nil)
+    }
+    
 }
 
