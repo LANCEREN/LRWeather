@@ -19,6 +19,7 @@ extension AddListViewController{
     func CheckCityisHad(CitynmsRow row: Int){
         let isHad = fetHadCityInfos(resultCity: citynms[row])
         if isHad == true {
+            //FIXME:不显示
             alertAction()
         } else {
             //不存在则将城市名，时间（作为排序依据） id（json解析需要使用）保存到CoreData中
@@ -71,7 +72,6 @@ extension AddListViewController{
                     print("搜索到的城市字典信息\(self.cityInfos)")
                     DispatchQueue.main.async {
                         self.updateUI()
-                        
                     }
                 } catch {
                     print("Error creating the database")
@@ -91,10 +91,10 @@ extension AddListViewController{
         let noneView = UIView()
         noneView.tag = 130
         noneView.frame = self.ynSearchView.ynSearchListView.frame
-        noneView.backgroundColor = self.ynSearchView.ynSearchListView.backgroundColor
+        noneView.backgroundColor = self.ynSearchView.backgroundColor
         noneView.isHidden = true
-        self.view.addSubview(noneView)
-        let noneLabel = UILabel(frame: CGRect(x: 0, y: 0, width: weatherSize.screen_w, height: 100))
+        self.ynSearchView.addSubview(noneView)
+        let noneLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100))
         noneLabel.text = "没有找到结果"
         noneLabel.font = UIFont(name: "HelveticaNeue-Light", size: 16)
         noneLabel.textColor = UIColor.lightGray
@@ -108,8 +108,10 @@ extension AddListViewController{
         let noneView = self.view.viewWithTag(130)
         if citynms == [] {
             noneView?.isHidden = false
+            self.ynSearchView.ynSearchListView.isHidden = true
         } else {
             noneView?.isHidden = true
+            self.ynSearchView.ynSearchListView.isHidden = false
         }
     }
 

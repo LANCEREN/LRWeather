@@ -43,16 +43,13 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
         self.view.bringSubview(toFront: CancelButton)
         self.delegate = self
 //        self.navigationController?.setNavigationBarHidden(true, animated: false)
-//cell内默认项目
+        //FIXME:不能添加
         let database1 = YNSearchData(key: "杭州")
         demoDatabase.append(database1)
-//        let database2 = YNSearchData(key: "YNSearchData")
-//        let database3 = YNExpandableCell(key: "YNExpandableCell")
         self.initData(database: demoDatabase)
         self.setYNCategoryButtonType(type: .border)
         //当没有搜索结果时显示提示
-       NoneView()
-        
+        NoneView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,7 +84,9 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
     }
     
     override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        super.textFieldShouldReturn(textField)
         getCityData()
+        view.endEditing(true)
         return true
     }
     open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -96,7 +95,9 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
     }
     override func ynSearchTextfieldcancelButtonClicked() {
         super.ynSearchTextfieldcancelButtonClicked()
-        self.CancelButton.isHidden = false 
+        self.CancelButton.isHidden = false
+        let noneView = self.view.viewWithTag(130)
+        noneView?.isHidden = true
     }
     
     
