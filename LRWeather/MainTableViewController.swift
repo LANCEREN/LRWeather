@@ -113,7 +113,7 @@ class MainTableViewController: UITableViewController {
     @IBAction func AddJump(_ sender: Any) {
         let view = UIStoryboard.init(name: "Main", bundle: Bundle.main)
         let cityView = view.instantiateViewController(withIdentifier: "AddListView")
-        cityView.hero.modalAnimationType = .selectBy(presenting: .fade, dismissing: .uncover(direction: .down))
+        cityView.hero.modalAnimationType = .selectBy(presenting: .fade, dismissing: .fade)
         print("tap to AddListViewController")
         self.present(cityView, animated: true, completion: nil)
     }

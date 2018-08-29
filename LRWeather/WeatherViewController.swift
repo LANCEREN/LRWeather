@@ -55,15 +55,15 @@ class WeatherViewController: UIViewController{
         
         setUI()
         
-        if appDelegate.cityInfoID != "" {
-            cityInfo = appDelegate.cityInfo
-            cityInfoid = appDelegate.cityInfoID
+        
+        cityInfo = appDelegate.cityInfo
+        cityInfoid = appDelegate.cityInfoID
             
-            self.getWeatherData()
-            self.getFutureWeatherData()
-            self.getLifeData()
-            self.getPMData()
-        }
+        self.getWeatherData()
+        self.getFutureWeatherData()
+        self.getLifeData()
+        self.getPMData()
+        
         
         let notificationName = Notification.Name(rawValue: "cityNotification")
         NotificationCenter.default.addObserver(self, selector: #selector(dismissNotification(notification:)), name: notificationName, object: nil)
@@ -85,9 +85,10 @@ class WeatherViewController: UIViewController{
     
     @objc func refresh() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.cityInfoID != "" {
-            cityInfoid = appDelegate.cityInfoID
-        }
+        
+        cityInfo = appDelegate.cityInfo
+        cityInfoid = appDelegate.cityInfoID
+        
         self.getWeatherData()
         self.getFutureWeatherData()
         self.getLifeData()

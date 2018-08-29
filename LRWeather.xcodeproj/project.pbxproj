@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3582EF5621344AED0072F4AE /* MainTableViewControllerEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3582EF5521344AED0072F4AE /* MainTableViewControllerEx.swift */; };
 		3582EF5821344DE80072F4AE /* WeatherViewControllerEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3582EF5721344DE80072F4AE /* WeatherViewControllerEx.swift */; };
+		3596EA5321363CB300123531 /* AddListEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3596EA5221363CB300123531 /* AddListEx.swift */; };
 		3599B16F213553A200546F40 /* AddList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3599B16E213553A200546F40 /* AddList.swift */; };
 		35F6A7D32132BDEC00DF6AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F6A7D22132BDEC00DF6AC3 /* AppDelegate.swift */; };
 		35F6A7D82132BDEC00DF6AC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35F6A7D62132BDEC00DF6AC3 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		3582EF5521344AED0072F4AE /* MainTableViewControllerEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewControllerEx.swift; sourceTree = "<group>"; };
 		3582EF5721344DE80072F4AE /* WeatherViewControllerEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerEx.swift; sourceTree = "<group>"; };
+		3596EA5221363CB300123531 /* AddListEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListEx.swift; sourceTree = "<group>"; };
 		3599B16E213553A200546F40 /* AddList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddList.swift; sourceTree = "<group>"; };
 		35F6A7CF2132BDEC00DF6AC3 /* LRWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LRWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F6A7D22132BDEC00DF6AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				35F6A7EB2132CE9F00DF6AC3 /* WeatherViewController.swift */,
 				3582EF5721344DE80072F4AE /* WeatherViewControllerEx.swift */,
 				3599B16E213553A200546F40 /* AddList.swift */,
+				3596EA5221363CB300123531 /* AddListEx.swift */,
 				35F6A7ED2132ECD100DF6AC3 /* Property.swift */,
 				35F6A7EF2132ED1700DF6AC3 /* SwiftyJSON.swift */,
 				35F6A7DC2132BDEC00DF6AC3 /* Assets.xcassets */,
@@ -242,6 +245,7 @@
 				35F6A7EA2132CA4F00DF6AC3 /* MainTableViewController.swift in Sources */,
 				35F6A7EC2132CECE00DF6AC3 /* WeatherViewController.swift in Sources */,
 				3582EF5621344AED0072F4AE /* MainTableViewControllerEx.swift in Sources */,
+				3596EA5321363CB300123531 /* AddListEx.swift in Sources */,
 				35F6A7DB2132BDEC00DF6AC3 /* LRWeather.xcdatamodeld in Sources */,
 				35F6A7D32132BDEC00DF6AC3 /* AppDelegate.swift in Sources */,
 				35F6A7F12132ED1800DF6AC3 /* SwiftyJSON.swift in Sources */,
