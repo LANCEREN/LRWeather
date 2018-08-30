@@ -43,10 +43,7 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
         self.view.bringSubview(toFront: CancelButton)
         self.delegate = self
 //        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        //FIXME:不能添加
-        let database1 = YNSearchData(key: "杭州")
-        demoDatabase.append(database1)
-        self.initData(database: demoDatabase)
+        DefaultInfo()
         self.setYNCategoryButtonType(type: .border)
         //当没有搜索结果时显示提示
         NoneView()

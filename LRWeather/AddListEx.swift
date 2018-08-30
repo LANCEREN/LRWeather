@@ -15,12 +15,22 @@ import YNSearch
 //MARK:- 城市信息的相关处理
 extension AddListViewController{
     
+    func DefaultInfo(){
+        
+        let database1 = YNSearchData(key: "杭州")
+        demoDatabase.append(database1)
+        self.initData(database: demoDatabase)
+        let DefaultCity :String = "杭州"
+        self.citynms.append(DefaultCity)
+        self.cityInfos[DefaultCity] = "101210101"
+        
+    }
+    
     ///判断要添加的城市是否存在
     func CheckCityisHad(CitynmsRow row: Int){
         let isHad = fetHadCityInfos(resultCity: citynms[row])
         if isHad == true {
-            //FIXME:不显示
-            alertAction()
+            //alertAction()
         } else {
             //不存在则将城市名，时间（作为排序依据） id（json解析需要使用）保存到CoreData中
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -61,9 +71,9 @@ extension AddListViewController{
                         let city = sortedKeysAndValues[i].value["citynm"].string!
                         let id = sortedKeysAndValues[i].value["weaid"].string!
                         if city == searchStr! {
-                            self.citynms.append(city)
                             let newcity: YNSearchData = YNSearchData(key: city)
                             self.demoDatabase.append(newcity)
+                            self.citynms.append(city)
                             self.cityInfos[city] = id
                             break
                         }
