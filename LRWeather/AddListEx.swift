@@ -15,7 +15,11 @@ import YNSearch
 //MARK:- 城市信息的相关处理
 extension AddListViewController{
     
-    func DefaultInfo(){
+    func DefaultRecommendCityInfo(){
+        
+    }
+    
+    func DefaultSearchCityInfo(){
         
         let database1 = YNSearchData(key: "杭州")
         demoDatabase.append(database1)
@@ -26,11 +30,12 @@ extension AddListViewController{
         
     }
     
-    ///判断要添加的城市是否存在
+    ///判断搜索后要添加的城市是否存在添加后跳转
     func CheckCityisHad(CitynmsRow row: Int){
         let isHad = fetHadCityInfos(resultCity: citynms[row])
         if isHad == true {
             //alertAction()
+            
         } else {
             //不存在则将城市名，时间（作为排序依据） id（json解析需要使用）保存到CoreData中
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -40,8 +45,9 @@ extension AddListViewController{
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             cityInfo.order = formatter.string(from: todayDate)
             appDelegate.saveContext()
-            hero.dismissViewController()
+            
         }
+        self.pushViewController()
     }
     
     ///搜索城市信息
@@ -96,7 +102,7 @@ extension AddListViewController{
 
 //MARK:- UI界面更新
 extension AddListViewController{
-    
+    ///当没有搜索结果时显示提示
     func NoneView(){
         let noneView = UIView()
         noneView.tag = 130
@@ -155,6 +161,7 @@ extension AddListViewController: NSFetchedResultsControllerDelegate {
         }
         print("保存之前检查的时候收藏了\(hadCityArray.count)个城市")
         //判断 hadCityArray 数组中是否包含搜索结果的城市名
+        
         return hadCityArray.contains(resultCity)
     }
     //如果存在弹出提示框

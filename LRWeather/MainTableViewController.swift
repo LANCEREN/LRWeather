@@ -21,6 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+//  LRWeather
+//
+//  Created by lance ren on 2018/8/27.
+//  Copyright © 2018年 lanceren. All rights reserved.
+
 import FoldingCell
 import UIKit
 import Hero
@@ -54,28 +59,37 @@ class MainTableViewController: UITableViewController {
         locationManager.distanceFilter = 5000
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
+        fetchAllCityInfos()
         
-        self.CellNumber = [0:1,1:cityInfos.count]
         self.hero.isEnabled = true
         
         super.viewDidLoad()
-        fetchAllCityInfos()
         setup()
         
+        let notificationName = Notification.Name(rawValue: "cityNotification")
+        NotificationCenter.default.addObserver(self, selector: #selector(dismissNotification(notification:)), name: notificationName, object: nil)
     }
     
     private func setup() {
         loadingview()
+        self.tableView.isScrollEnabled = false
         cellHeights = Array(repeating: Const.closeCellHeight, count: Const.rowsCount)
         tableView.estimatedRowHeight = Const.closeCellHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         tableView.separatorStyle = .none//分割线消失
+        
         if #available(iOS 10.0, *) {
             tableView.refreshControl = UIRefreshControl()
             tableView.refreshControl?.addTarget(self, action: #selector(refreshHandler), for: .valueChanged)
         }
     }
+    
+    @objc func dismissNotification(notification: Notification){
+        fetchAllCityInfos()
+        tableView.reloadData()
+    }
+    
     
     @objc func refreshHandler() {
         let deadlineTime = DispatchTime.now() + .seconds(1)

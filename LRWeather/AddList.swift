@@ -23,7 +23,7 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
     var cityInfos : Dictionary<String, String> = [:] //搜索到的要添加的城市的字典城市name<->id
     let todayDate = Date()
     let formatter = DateFormatter()
-    let demoCategories = ["Menu", "Animation", "Transition", "TableView", "CollectionView", "Indicator", "Alert", "UIView", "UITextfield", "UITableView", "Swift", "iOS", "Android"]
+    let demoCategories = ["北京", "上海", "广州", "TableView", "CollectionView", "Indicator", "Alert", "UIView", "UITextfield", "UITableView", "Swift", "iOS", "Android"]
     let demoSearchHistories = ["Menu", "Animation", "Transition", "TableView"]
     var demoDatabase: [YNSearchData] = []
     
@@ -38,17 +38,17 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
         self.ynSearchinit()
         self.ynSearchTextfieldView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))//搜索输入栏的颜色
         self.ynSearchTextfieldView.ynSearchTextField.placeholder = "Search the City what you want"
+        self.setYNCategoryButtonType(type: .border)
         
         self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))//最上层的颜色
         self.view.bringSubview(toFront: CancelButton)
+        
         self.delegate = self
-//        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        DefaultInfo()
-        self.setYNCategoryButtonType(type: .border)
-        //当没有搜索结果时显示提示
+        DefaultSearchCityInfo()
         NoneView()
-    }
 
+//        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -60,24 +60,30 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
     func ynSearchListViewDidScroll() {
         self.ynSearchTextfieldView.ynSearchTextField.endEditing(true)
     }
-    
+    //FIXME:推荐跳转
     func ynSearchHistoryButtonClicked(text: String) {
-        self.pushViewController(text: text)
+        
+        self.pushViewController()
         print(text)
     }
     
     func ynCategoryButtonClicked(text: String) {
-        self.pushViewController(text: text)
+        self.pushViewController()
         print(text)
     }
     
     func ynSearchListViewClicked(key: String) {
-        self.pushViewController(text: key)
+        self.pushViewController()
         print(key)
     }
     
     func ynSearchListViewClicked(object: Any) {
         print(object)
+    }
+    
+    open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.CancelButton.isHidden = true
+        return true
     }
     
     override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -86,10 +92,7 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
         view.endEditing(true)
         return true
     }
-    open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        self.CancelButton.isHidden = true
-        return true
-    }
+    
     override func ynSearchTextfieldcancelButtonClicked() {
         super.ynSearchTextfieldcancelButtonClicked()
         self.CancelButton.isHidden = false
@@ -119,8 +122,9 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
     func ynSearchListView(_ ynSearchListView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let ynmodel = self.ynSearchView.ynSearchListView.searchResultDatabase[indexPath.row] as? YNSearchModel, let key = ynmodel.key
         {
-            self.ynSearchView.ynSearchListView.ynSearchListViewDelegate?.ynSearchListViewClicked(key: key)
-            self.ynSearchView.ynSearchListView.ynSearchListViewDelegate?.ynSearchListViewClicked(object: self.ynSearchView.ynSearchListView.database[indexPath.row])
+//            self.ynSearchView.ynSearchListView.ynSearchListViewDelegate?.ynSearchListViewClicked(key: key)
+//            self.ynSearchView.ynSearchListView.ynSearchListViewDelegate?.ynSearchListViewClicked(object: self.ynSearchView.ynSearchListView.database[indexPath.row])
+            //FIXME:判断历史记录有没有
             self.ynSearchView.ynSearchListView.ynSearch.appendSearchHistories(value: key)
         }
         CheckCityisHad(CitynmsRow: indexPath.row)
@@ -131,8 +135,9 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
         hero.modalAnimationType = .uncover(direction: .down)
         hero.dismissViewController()
     }
-    func pushViewController(text:String) {
-        
+    func pushViewController() {
+        let notificationName = Notification.Name(rawValue: "cityNotification")
+        NotificationCenter.default.post(name: notificationName, object: self)
         hero.modalAnimationType = .fade
         hero.dismissViewController()
     }

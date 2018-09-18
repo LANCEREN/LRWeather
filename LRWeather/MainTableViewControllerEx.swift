@@ -18,10 +18,12 @@ import CoreLocation
 extension MainTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
+        //return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.CellNumber![section]!
+        //return self.CellNumber![1]!+1
     }
     
     override func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -36,7 +38,6 @@ extension MainTableViewController {
         } else {
             cell.unfold(true, animated: false, completion: nil)
         }
-        //cell.CellCityInfo = locationcity
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -97,9 +98,75 @@ extension MainTableViewController {
             tableView.endUpdates()
         }, completion: nil)
     }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let ActionDel: UIContextualAction
+        
+        if indexPath.section == 1{
+            
+            let actionDel = UIContextualAction(style: .destructive, title: "删除") { (action, view, finished) in
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            //删除数据源
+            context.delete(self.fc.object(at: indexPath))
+            appDelegate.saveContext()
+            
+            //print(self.fc.fetchedObjects![indexPath.row])
+            finished(true)
+            }
+            actionDel.backgroundColor = UIColor(named: "w_red")
+            ActionDel = actionDel
+        }
+        else{
+            let actionDel = UIContextualAction(style: .destructive, title: "收藏") { (action, view, finished) in
+                
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                //判断并添加数据源
+                
+                appDelegate.saveContext()
+                
+                //print(self.fc.fetchedObjects![indexPath.row])
+                finished(true)
+                }
+            actionDel.backgroundColor = UIColor(named: "w_blue")
+            ActionDel = actionDel
+            
+        }
+        return UISwipeActionsConfiguration(actions: [ActionDel])
+    }
+    
+    //tableView变化的相关方法 配合滑动删除手势
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.endUpdates()
+    }
+    
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+//        switch type {
+//        case .delete:
+//            tableView.deleteRows(at: [indexPath!], with: .automatic)
+//        case .insert:
+//            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+//        case .update:
+//            tableView.reloadRows(at: [indexPath!], with: .automatic)
+//        default:
+//            tableView.reloadData()
+//        }
+//
+//        if let object = controller.fetchedObjects {
+//            cityInfos = object as! [CityInfo]
+//        }
+//    }
+    
+
 }
 
-//MARK:coredata protocol实现
+//MARK: - coredata protocol实现
 extension MainTableViewController: NSFetchedResultsControllerDelegate {
     ///使用fetch取回保存在CoreData中的数据
     func fetchAllCityInfos() {
@@ -118,13 +185,14 @@ extension MainTableViewController: NSFetchedResultsControllerDelegate {
             try fc.performFetch()
             if let object = fc.fetchedObjects {
                 cityInfos = object
-                print ("取回成功")
+                print ("取回成功,现在收藏了\(cityInfos.count)个城市")
             }
             
         } catch {
             print ("取回失败")
         }
-        tableView.reloadData()
+        self.CellNumber = [0:1,1:cityInfos.count]
+        //tableView.reloadData()
     }
 }
 
@@ -182,15 +250,12 @@ extension MainTableViewController: CLLocationManagerDelegate {
                                 appDelegate.locationCityID = id
                                 self.locationcity = appDelegate.locationCity
                                 self.locationcityid = appDelegate.locationCityID
+                                print("当前城市为\(self.locationcity)")
                             }
                         }
                     }
                     DispatchQueue.main.async {
                         if appDelegate.cityInfo == "" {
-                            //                            self.getWeatherData()
-                            //                            self.getFutureWeatherData()
-                            //                            self.getLifeData()
-                            //                            self.getPMData()
                             self.loadingAction()
                         }
                     }
@@ -204,13 +269,15 @@ extension MainTableViewController: CLLocationManagerDelegate {
         task.resume()
     }
     ///加载预览界面动画
+    //FIXME:u用锁住tableview来盖住
     func loadingAction() {
-        //正在加载的预览界面动画 在定位成功后隐藏
+        //正在加载的预览界面动画 在定位成功后隐藏 此动作为隐藏
         let loadingView = self.view.viewWithTag(121)
         UIView.animate(withDuration: 0.2, animations: {
             loadingView?.alpha = 0
         }) { (_) in
             loadingView?.isHidden = true
+            self.tableView.isScrollEnabled = true
             self.tableView.reloadData()
         }
     }

@@ -294,7 +294,7 @@ extension WeatherViewController{
     
 }
 
-//MARK:- 获取信息
+//MARK: - 获取信息
 extension WeatherViewController{
     
     ///判断是否为夜间 （18：00 ~ 6：00）
@@ -410,7 +410,7 @@ extension WeatherViewController{
                     //也可以用json.first.1["lifeindex_uv_attr"]
                     //print("a的值为\(a)")
                     let uv = json["result"][0]["lifeindex_uv_attr"].string!
-                    let ct = json["result"][0]["lifeindex_ct_attr"].string!
+                    let ct = json["result"][0]["lifeindex_ct_dese"].string!
                     DispatchQueue.main.async {
                         self.updateLifeUI(uv: uv, ct: ct)
                     }
@@ -505,14 +505,14 @@ extension WeatherViewController{
     
     ///- Parameters:
     ///   - uv:紫外线
-    ///   - ct:穿衣指数
+    ///   - ct:穿衣建议
     
     func updateLifeUI(uv: String, ct: String) {
         let uvLabel = self.view.viewWithTag(203) as! UILabel
         let ctLabel = self.view.viewWithTag(204) as! UILabel
         
         uvLabel.text = "紫外线指数: " + uv
-        ctLabel.text = "穿衣指数: " + ct
+        ctLabel.text = "穿衣建议: " + ct
     }
     
     /**
