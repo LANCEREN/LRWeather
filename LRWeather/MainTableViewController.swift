@@ -1,7 +1,7 @@
 //
 //  MainTableViewController.swift
 //
-// Copyright (c) 21/12/15. Ramotion Inc. (http://ramotion.com)
+// Copyright (c) Ramotion Inc. (http://ramotion.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,23 +34,24 @@ import CoreLocation
 
 class MainTableViewController: UITableViewController {
     
-    var currLocation : CLLocation!//当前位置(经纬度)
+    var currLocation: CLLocation!//当前位置(经纬度)
     let locationManager:CLLocationManager = CLLocationManager()//位置管理器
-    var fc : NSFetchedResultsController<CityInfo>! //coredata库的城市列表
-    var cityInfos : [CityInfo] = [] //收藏的城市信息（暂存）
-    var locationcity : String = ""//当前位置城市用作label显示
-    var locationcityid : String = ""//当前城市ID方便URL
+    var fc: NSFetchedResultsController<CityInfo>! //coredata库的城市列表
+    var cityInfos: [CityInfo] = [] //收藏的城市信息（暂存）
+    var locationcity: String = ""//当前位置城市用作label显示
+    var locationcityid: String = ""//当前城市ID方便URL
     var cityInfo: String = ""//需要显示的城市信息
-    var cityInfoid : String = ""//需要现实的城市信息id
+    var cityInfoid: String = ""//需要现实的城市信息id
     
-    var CellNumber : Dictionary<Int,Int>?//两种cell的数量字典
+    var CellNumber: Dictionary<Int,Int>?//两种cell的数量字典
     
     enum Const {
         static let closeCellHeight: CGFloat = 179
         static let openCellHeight: CGFloat = 488
-        static let rowsCount = 10
+        static var rowsCount = 10
     }
     var cellHeights: [CGFloat] = []//展开和折叠cell的高度
+    var LocalCellHeight: CGFloat = 0//localcell的高度防止错误识别
     
     override func viewDidLoad() {
         

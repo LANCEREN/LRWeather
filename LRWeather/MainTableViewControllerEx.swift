@@ -30,13 +30,22 @@ extension MainTableViewController {
         guard case let cell as DemoCell = cell else {
             return
         }
-        
         cell.backgroundColor = .clear
-        
-        if cellHeights[indexPath.row] == Const.closeCellHeight {
-            cell.unfold(false, animated: false, completion: nil)
-        } else {
-            cell.unfold(true, animated: false, completion: nil)
+        switch indexPath.section {
+        case 0:
+            if LocalCellHeight == Const.closeCellHeight {
+                cell.unfold(false, animated: false, completion: nil)
+            } else {
+                cell.unfold(true, animated: false, completion: nil)
+            }
+        case 1:
+            if cellHeights[indexPath.row] == Const.closeCellHeight {
+                cell.unfold(false, animated: false, completion: nil)
+            } else {
+                cell.unfold(true, animated: false, completion: nil)
+            }
+        default:
+            print("indexPath.section error，willDisplay超出范围")
         }
     }
     
@@ -55,42 +64,70 @@ extension MainTableViewController {
         // 阴影的透明度，默认为0，不设置则不会显示阴影****
         cell.Detail.layer.shadowOpacity = 0.7
         
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             cell.LocationImage1.image = #imageLiteral(resourceName: "location")
             cell.LocationImage2.image = #imageLiteral(resourceName: "location")
             cell.CellCityInfo = locationcity
-        } else {
+        case 1:
             cell.LocationImage1.image = .none
             cell.LocationImage2.image = .none
             if cityInfos.count != 0{
                 cell.CellCityInfo = cityInfos[indexPath.row].city!
             }
+        default:
+            print("indexPath.section error，cellforRow超出范围")
         }
         return cell
     }
     
     override func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return cellHeights[indexPath.row]
+        var cellheight: CGFloat = Const.closeCellHeight
+        switch indexPath.section {
+        case 0:
+            cellheight = LocalCellHeight
+        case 1:
+            cellheight = cellHeights[indexPath.row]
+        default:
+            print("indexPath.section error，heightForRow超出范围")
+        }
+        return cellheight
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let cell = tableView.cellForRow(at: indexPath) as! FoldingCell
-        
         if cell.isAnimating() {
             return
         }
-        
         var duration = 0.0
-        let cellIsCollapsed = cellHeights[indexPath.row] == Const.closeCellHeight
-        if cellIsCollapsed {
-            cellHeights[indexPath.row] = Const.openCellHeight
-            cell.unfold(true, animated: true, completion: nil)
-            duration = 0.5
-        } else {
-            cellHeights[indexPath.row] = Const.closeCellHeight
-            cell.unfold(false, animated: true, completion: nil)
-            duration = 0.8
+        switch indexPath.section {
+        case 0:
+            let cellIsCollapsed = LocalCellHeight == Const.closeCellHeight
+            if cellIsCollapsed {
+                LocalCellHeight = Const.openCellHeight
+                cell.unfold(true, animated: true, completion: nil)
+                duration = 0.5
+            } else {
+                LocalCellHeight = Const.closeCellHeight
+                cell.unfold(false, animated: true, completion: nil)
+                duration = 0.8
+            }
+
+        case 1:
+            let cellIsCollapsed = cellHeights[indexPath.row] == Const.closeCellHeight
+            if cellIsCollapsed {
+                cellHeights[indexPath.row] = Const.openCellHeight
+                cell.unfold(true, animated: true, completion: nil)
+                duration = 0.5
+            } else {
+                cellHeights[indexPath.row] = Const.closeCellHeight
+                cell.unfold(false, animated: true, completion: nil)
+                duration = 0.8
+            }
+
+        default:
+            print("indexPath.section error，didSelectRow超出范围")
         }
         
         UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: { () -> Void in
@@ -99,53 +136,54 @@ extension MainTableViewController {
         }, completion: nil)
     }
     
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let ActionDel: UIContextualAction
-        
-        if indexPath.section == 1{
-            
-            let actionDel = UIContextualAction(style: .destructive, title: "删除") { (action, view, finished) in
-            
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-            //删除数据源
-            context.delete(self.fc.object(at: indexPath))
-            appDelegate.saveContext()
-            
-            //print(self.fc.fetchedObjects![indexPath.row])
-            finished(true)
-            }
-            actionDel.backgroundColor = UIColor(named: "w_red")
-            ActionDel = actionDel
-        }
-        else{
-            let actionDel = UIContextualAction(style: .destructive, title: "收藏") { (action, view, finished) in
-                
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let context = appDelegate.persistentContainer.viewContext
-                //判断并添加数据源
-                
-                appDelegate.saveContext()
-                
-                //print(self.fc.fetchedObjects![indexPath.row])
-                finished(true)
-                }
-            actionDel.backgroundColor = UIColor(named: "w_blue")
-            ActionDel = actionDel
-            
-        }
-        return UISwipeActionsConfiguration(actions: [ActionDel])
-    }
-    
-    //tableView变化的相关方法 配合滑动删除手势
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.beginUpdates()
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.endUpdates()
-    }
-    
+//    //FIXME:滑动删除莫名BUG
+//    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let ActionDel: UIContextualAction
+//
+//        if indexPath.section == 1{
+//
+//            let actionDel = UIContextualAction(style: .destructive, title: "删除") { (action, view, finished) in
+//
+//            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//            let context = appDelegate.persistentContainer.viewContext
+//            //删除数据源
+//            context.delete(self.fc.object(at: indexPath))
+//            appDelegate.saveContext()
+//
+//            //print(self.fc.fetchedObjects![indexPath.row])
+//            finished(true)
+//            }
+//            actionDel.backgroundColor = UIColor(named: "w_red")
+//            ActionDel = actionDel
+//        }
+//        else{
+//            let actionDel = UIContextualAction(style: .destructive, title: "收藏") { (action, view, finished) in
+//
+//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//                let context = appDelegate.persistentContainer.viewContext
+//                //判断并添加数据源
+//
+//                appDelegate.saveContext()
+//
+//                //print(self.fc.fetchedObjects![indexPath.row])
+//                finished(true)
+//                }
+//            actionDel.backgroundColor = UIColor(named: "w_blue")
+//            ActionDel = actionDel
+//
+//        }
+//        return UISwipeActionsConfiguration(actions: [ActionDel])
+//    }
+//
+//    //tableView变化的相关方法 配合滑动删除手势
+//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//        self.tableView.beginUpdates()
+//    }
+//
+//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//        self.tableView.endUpdates()
+//    }
+//
 //    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 //        switch type {
 //        case .delete:
@@ -191,7 +229,7 @@ extension MainTableViewController: NSFetchedResultsControllerDelegate {
         } catch {
             print ("取回失败")
         }
-        self.CellNumber = [0:1,1:cityInfos.count]
+        
         //tableView.reloadData()
     }
 }
@@ -269,7 +307,7 @@ extension MainTableViewController: CLLocationManagerDelegate {
         task.resume()
     }
     ///加载预览界面动画
-    //FIXME:u用锁住tableview来盖住
+    //FIXME:用锁住tableview来盖住
     func loadingAction() {
         //正在加载的预览界面动画 在定位成功后隐藏 此动作为隐藏
         let loadingView = self.view.viewWithTag(121)
@@ -283,7 +321,7 @@ extension MainTableViewController: CLLocationManagerDelegate {
     }
 }
 
-//MARK:LoadingView加载数据
+//MARK:LoadingView加载数据页面
 extension MainTableViewController {
     
     func loadingview(){
@@ -304,5 +342,12 @@ extension MainTableViewController {
         loadingLabel.textColor = UIColor.white
         loadingLabel.textAlignment = .center
         loadingView.addSubview(loadingLabel)
+    }
+}
+
+extension MainTableViewController {
+    func BasicDataSet(){
+        self.CellNumber = [0:1,1:cityInfos.count]
+        Const.rowsCount = cityInfos.count
     }
 }
