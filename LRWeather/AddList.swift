@@ -136,7 +136,7 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
         hero.dismissViewController()
     }
     func pushViewController() {
-        let notificationName = Notification.Name(rawValue: "cityNotification")
+        let notificationName = Notification.Name(rawValue: "MaincityNotification")
         NotificationCenter.default.post(name: notificationName, object: self)
         hero.modalAnimationType = .fade
         hero.dismissViewController()

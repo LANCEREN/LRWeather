@@ -41,6 +41,9 @@ class WeatherViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        cityInfo = appDelegate.cityInfo
+        cityInfoid = appDelegate.cityInfoID
+        
         self.hero.isEnabled = true
         timeDayNight()
         self.view.backgroundColor = isNight! ? UIColor(named: "w_nightblue") : UIColor(named: "w_lightblue")
@@ -54,10 +57,6 @@ class WeatherViewController: UIViewController{
         header.lastUpdatedTimeLabel.isHidden = false
         
         setUI()
-        
-        
-        cityInfo = appDelegate.cityInfo
-        cityInfoid = appDelegate.cityInfoID
             
         self.getWeatherData()
         self.getFutureWeatherData()
@@ -65,23 +64,23 @@ class WeatherViewController: UIViewController{
         self.getPMData()
         
         
-        let notificationName = Notification.Name(rawValue: "cityNotification")
-        NotificationCenter.default.addObserver(self, selector: #selector(dismissNotification(notification:)), name: notificationName, object: nil)
+//        let notificationName = Notification.Name(rawValue: "cityNotification")
+//        NotificationCenter.default.addObserver(self, selector: #selector(dismissNotification(notification:)), name: notificationName, object: nil)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    @objc func dismissNotification(notification: Notification){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.cityInfoID != "" {
-            cityInfoid = appDelegate.cityInfoID
-        } else {
-            print("当前cityInfo为空,error")
-        }
-        self.getWeatherData()
-        self.getFutureWeatherData()
-        self.getLifeData()
-        self.getPMData()
-    }
+//    @objc func dismissNotification(notification: Notification){
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        if appDelegate.cityInfoID != "" {
+//            cityInfoid = appDelegate.cityInfoID
+//        } else {
+//            print("当前cityInfo为空,error")
+//        }
+//        self.getWeatherData()
+//        self.getFutureWeatherData()
+//        self.getLifeData()
+//        self.getPMData()
+//    }
     
     @objc func refresh() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

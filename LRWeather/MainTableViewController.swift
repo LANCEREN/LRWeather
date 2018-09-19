@@ -67,7 +67,7 @@ class MainTableViewController: UITableViewController {
         super.viewDidLoad()
         setup()
         
-        let notificationName = Notification.Name(rawValue: "cityNotification")
+        let notificationName = Notification.Name(rawValue: "MaincityNotification")
         NotificationCenter.default.addObserver(self, selector: #selector(dismissNotification(notification:)), name: notificationName, object: nil)
     }
     
@@ -107,13 +107,18 @@ class MainTableViewController: UITableViewController {
         let btn : UIButton = sender as! UIButton
         let cp : CGPoint = btn.convert(btn.bounds.origin, to: self.tableView)
         let indexpath = self.tableView.indexPathForRow(at: cp)
-        if indexpath?.row == 0 {
+        
+        switch indexpath?.section {
+        case 0:
             self.cityInfo = locationcity
             self.cityInfoid = locationcityid
-        } else {
+        case 1:
             self.cityInfo = cityInfos[indexpath!.row].city!
             self.cityInfoid = cityInfos[indexpath!.row].id!
+        default:
+            print("indexPath.section error，buttonjump超出范围")
         }
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.cityInfo = self.cityInfo
         appDelegate.cityInfoID = self.cityInfoid

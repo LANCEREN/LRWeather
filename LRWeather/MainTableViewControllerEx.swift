@@ -229,7 +229,7 @@ extension MainTableViewController: NSFetchedResultsControllerDelegate {
         } catch {
             print ("取回失败")
         }
-        
+        BasicDataSet()
         //tableView.reloadData()
     }
 }
@@ -345,6 +345,7 @@ extension MainTableViewController {
     }
 }
 
+//MARK: - 初始化数据
 extension MainTableViewController {
     func BasicDataSet(){
         self.CellNumber = [0:1,1:cityInfos.count]
