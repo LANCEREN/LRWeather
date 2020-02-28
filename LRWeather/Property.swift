@@ -12,6 +12,7 @@ import YNSearch
 
 class weatherSize {
     static let screen_w = UIScreen.main.bounds.width
+    static let screen_h = UIScreen.main.bounds.height
 }
 
 class YNDropDownMenu: YNSearchModel {

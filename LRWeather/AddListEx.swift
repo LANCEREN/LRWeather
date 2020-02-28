@@ -75,7 +75,7 @@ extension AddListViewController{
                     for i in 0..<count {
                         //遍历所有城市 判断与搜索栏的城市的城市名相同 找到后跳出循环
                         let city = sortedKeysAndValues[i].value["citynm"].string!
-                        let id = sortedKeysAndValues[i].value["weaid"].string!
+                        let id = sortedKeysAndValues[i].value["cityid"].string!
                         if city == searchStr! {
                             let newcity: YNSearchData = YNSearchData(key: city)
                             self.demoDatabase.append(newcity)
@@ -102,6 +102,7 @@ extension AddListViewController{
 
 //MARK:- UI界面更新
 extension AddListViewController{
+    
     ///当没有搜索结果时显示提示
     func NoneView(){
         let noneView = UIView()
@@ -111,7 +112,7 @@ extension AddListViewController{
         noneView.isHidden = true
         self.ynSearchView.addSubview(noneView)
         let noneLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100))
-        noneLabel.text = "没有找到结果"
+        noneLabel.text = "这个地方...没找到，可能在月球上..."
         noneLabel.font = UIFont(name: "HelveticaNeue-Light", size: 16)
         noneLabel.textColor = UIColor.lightGray
         noneLabel.textAlignment = .center

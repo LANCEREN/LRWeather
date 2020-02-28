@@ -147,7 +147,7 @@ extension WeatherViewController:UIScrollViewDelegate{
 extension WeatherViewController{
     func setUI() {
         //布局
-        weatherInfoScrollView.contentSize = CGSize(width: weatherSize.screen_w, height: 850)
+        weatherInfoScrollView.contentSize = CGSize(width: weatherSize.screen_w, height: 920)
         //实时温度
         let tempLabel = UILabel(frame: CGRect(x: 0, y: 70, width: weatherSize.screen_w, height: 100))
         tempLabel.tag = 102
@@ -212,14 +212,18 @@ extension WeatherViewController{
         otherLabel_2.tag = 202
         let otherLabel_3 = UILabel()
         otherLabel_3.tag = 203
+        let otherLabel_5 = UILabel()
+        otherLabel_5.tag = 205
         let otherLabel_4 = UILabel()
         otherLabel_4.tag = 204
         let otherLabel_6 = UILabel()
         otherLabel_6.tag = 206
         let otherLabel_7 = UILabel()
         otherLabel_7.tag = 207
+        let otherLabel_8 = UILabel()
+        otherLabel_8.tag = 208
         var labelY: CGFloat = 0
-        let otherLables : [UILabel] = [otherLabel_1, otherLabel_2, otherLabel_3, otherLabel_4, otherLabel_6, otherLabel_7]
+        let otherLables : [UILabel] = [otherLabel_1, otherLabel_2, otherLabel_6, otherLabel_7, otherLabel_3, otherLabel_5, otherLabel_4, otherLabel_8]
         for i in otherLables {
             i.frame = CGRect(x: 10, y: labelY, width: weatherSize.screen_w - 10, height: 40)
             i.text = ""
@@ -466,24 +470,24 @@ extension WeatherViewController{
     ///- throws:no throw
     ///
     func updateUI(name: String, temp: String, tempAll: String, weather: String, humidity: String, wind: String, winp: String) {
-        let title = self.view.viewWithTag(101) as! UILabel
-        let tempLabel = self.view.viewWithTag(102) as! UILabel
-        let weatherLable = self.view.viewWithTag(103) as! UILabel
-        let weatherImage = self.view.viewWithTag(104) as! UIImageView
-        let tempTitleLable = self.view.viewWithTag(105) as! UILabel
+        let title             = self.view.viewWithTag(101) as! UILabel
+        let tempLabel         = self.view.viewWithTag(102) as! UILabel
+        let weatherLable      = self.view.viewWithTag(103) as! UILabel
+        let weatherImage      = self.view.viewWithTag(104) as! UIImageView
+        let tempTitleLable    = self.view.viewWithTag(105) as! UILabel
         let tempAllTitleLable = self.view.viewWithTag(106) as! UILabel
-        let tempAllLabel = self.view.viewWithTag(107) as! UILabel
-        let humidityLabel = self.view.viewWithTag(201) as! UILabel
-        let windLabel = self.view.viewWithTag(202) as! UILabel
+        let tempAllLabel      = self.view.viewWithTag(107) as! UILabel
+        let MoonLabel         = self.view.viewWithTag(201) as! UILabel
+        let RainAirPressLabel = self.view.viewWithTag(202) as! UILabel
         
-        title.text = name
-        tempLabel.text = temp //主标题栏
-        tempTitleLable.text = temp //上拉标体栏
-        weatherLable.text = weather //标题栏天气
-        tempAllLabel.text = tempAll  //主标题栏温度区间
+        title.text             = name
+        tempLabel.text         = temp //主标题栏
+        tempTitleLable.text    = temp //上拉标体栏
+        weatherLable.text      = weather //标题栏天气
+        tempAllLabel.text      = tempAll  //主标题栏温度区间
         tempAllTitleLable.text = tempAll  //上拉标题栏温度区间
-        humidityLabel.text = "湿度: " + humidity
-        windLabel.text = "风向: " + wind + ", 风力: " + winp
+        MoonLabel.text         = "月升时间: " + humidity + "                  " + "月落时间：" + ""
+        RainAirPressLabel.text = "降水量: " + wind + "                      " + "气压: " + winp
         
         let weaPy = weather.transformToPinYin()
         let weaPynight = weaPy + "wan"
@@ -509,9 +513,11 @@ extension WeatherViewController{
     
     func updateLifeUI(uv: String, ct: String) {
         let uvLabel = self.view.viewWithTag(203) as! UILabel
+        let uvtipsLabel = self.view.viewWithTag(205) as! UILabel
         let ctLabel = self.view.viewWithTag(204) as! UILabel
         
-        uvLabel.text = "紫外线指数: " + uv
+        uvLabel.text = "紫外线强度: " + uv + "     " + "               " + "紫外线指数：" + ""
+        uvtipsLabel.text = "防晒建议: " + ""
         ctLabel.text = "穿衣建议: " + ct
     }
     
@@ -528,9 +534,11 @@ extension WeatherViewController{
     func updatePMUI(aqi: String, aqi_scope: String, aqi_levid: String, aqi_levnm: String) {
         let aqiLabel = self.view.viewWithTag(206) as! UILabel
         let levnmLabel = self.view.viewWithTag(207) as! UILabel
+        let AlertLabel = self.view.viewWithTag(208) as! UILabel
         
         aqiLabel.text = "PM2.5指数: " + aqi + " (\(aqi_scope))"
         levnmLabel.text = "空气质量: \(aqi_levid)级 \(aqi_levnm)"
+        AlertLabel.text = "天气预警信息:"
     }
     
     

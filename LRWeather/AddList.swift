@@ -10,11 +10,13 @@ import Foundation
 import UIKit
 import Hero
 import CoreData
+import SnapKit
 import YNSearch
 
 //MARK:- AddListViewController
 class AddListViewController: YNSearchViewController, YNSearchDelegate {
     
+    @IBOutlet weak var DownArray: UIButton!
     @IBOutlet weak var CancelButton: UIButton!
     var cityInfo : CityInfo!//储存coredata的实例
     var cityInfosMO : [CityInfo] = []//?可以作为已经收藏的城市列表的fc返回值
@@ -23,7 +25,7 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
     var cityInfos : Dictionary<String, String> = [:] //搜索到的要添加的城市的字典城市name<->id
     let todayDate = Date()
     let formatter = DateFormatter()
-    let demoCategories = ["北京", "上海", "广州", "TableView", "CollectionView", "Indicator", "Alert", "UIView", "UITextfield", "UITableView", "Swift", "iOS", "Android"]
+    let demoCategories = ["北京", "上海", "广州"]
     let demoSearchHistories = ["Menu", "Animation", "Transition", "TableView"]
     var demoDatabase: [YNSearchData] = []
     
@@ -46,6 +48,11 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
         self.delegate = self
         DefaultSearchCityInfo()
         NoneView()
+        
+        DownArray.snp.makeConstraints{ (make) -> Void in
+        make.centerY.equalTo(self.ynSearchTextfieldView.ynSearchTextField.snp.centerY)
+            
+        }
 
 //        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
@@ -83,6 +90,8 @@ class AddListViewController: YNSearchViewController, YNSearchDelegate {
     
     open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.CancelButton.isHidden = true
+        let noneView = self.view.viewWithTag(130)
+        noneView?.isHidden = true
         return true
     }
     

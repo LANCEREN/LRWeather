@@ -1,4 +1,5 @@
 # Uncomment the next line to define a global platform for your project
+
 # platform :ios, '9.0'
 
 target 'LRWeather' do
@@ -11,6 +12,8 @@ target 'LRWeather' do
   pod 'FoldingCell', '~> 3.1.4'
   pod 'YNSearch', '~> 2.3.1'
   pod 'MJRefresh', '~> 3.1.15.3'
+  pod 'SwiftyXMLParser', '~> 4.2.0'
+
   # Pods for LRWeather
 
 end

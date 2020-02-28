@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Hero
 import MJRefresh
+import SwiftyJSON
 
 class WeatherViewController: UIViewController{
     
@@ -64,23 +65,10 @@ class WeatherViewController: UIViewController{
         self.getPMData()
         
         
-//        let notificationName = Notification.Name(rawValue: "cityNotification")
-//        NotificationCenter.default.addObserver(self, selector: #selector(dismissNotification(notification:)), name: notificationName, object: nil)
-        // Do any additional setup after loading the view, typically from a nib.
+
     }
     
-//    @objc func dismissNotification(notification: Notification){
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        if appDelegate.cityInfoID != "" {
-//            cityInfoid = appDelegate.cityInfoID
-//        } else {
-//            print("当前cityInfo为空,error")
-//        }
-//        self.getWeatherData()
-//        self.getFutureWeatherData()
-//        self.getLifeData()
-//        self.getPMData()
-//    }
+
     
     @objc func refresh() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -92,6 +80,7 @@ class WeatherViewController: UIViewController{
         self.getFutureWeatherData()
         self.getLifeData()
         self.getPMData()
+        
         self.weatherInfoScrollView.mj_header.endRefreshing()
         let title = self.view.viewWithTag(101) as! UILabel
         UIView.animate(withDuration: 0.3) {

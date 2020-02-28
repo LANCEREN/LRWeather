@@ -22,6 +22,7 @@ extension MainTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return self.CellNumber![section]!
         //return self.CellNumber![1]!+1
     }
@@ -69,11 +70,45 @@ extension MainTableViewController {
             cell.LocationImage1.image = #imageLiteral(resourceName: "location")
             cell.LocationImage2.image = #imageLiteral(resourceName: "location")
             cell.CellCityInfo = locationcity
+            GetWeatherData(cityid: locationcityid,row: -1)
+            cell.UpdateTimeLabel.text = todayWeatherDictionary[0]?[0]
+            cell.FeelLabel.text = todayWeatherDictionary[0]?[1]
+            cell.FeelLabel2.text = todayWeatherDictionary[0]?[1]
+            cell.MaxTemp.text = todayWeatherDictionary[0]?[2]
+            cell.MinTemp.text = todayWeatherDictionary[0]?[3]
+            cell.tips.text = todayWeatherDictionary[0]?[4]
+            cell.Date.text = todayWeatherDictionary[0]?[5]
+            cell.AQI.text = todayWeatherDictionary[0]?[6]
+            cell.HUmidity.text = todayWeatherDictionary[0]?[7]
+            cell.RainPop.text = todayWeatherDictionary[0]?[8]
+            cell.DayWeather.text = todayWeatherDictionary[0]?[9]
+            cell.NightWeather.text = todayWeatherDictionary[0]?[10]
+            cell.DayWindli.text = todayWeatherDictionary[0]?[11]
+            cell.NightWindLi.text = todayWeatherDictionary[0]?[12]
+            cell.DayWindXiang.text = todayWeatherDictionary[0]?[13]
+            cell.NightWindXiang.text = todayWeatherDictionary[0]?[14]
         case 1:
             cell.LocationImage1.image = .none
             cell.LocationImage2.image = .none
             if cityInfos.count != 0{
                 cell.CellCityInfo = cityInfos[indexPath.row].city!
+                GetWeatherData(cityid: cityInfos[indexPath.row].id!,row: indexPath.row)
+                cell.UpdateTimeLabel.text = todayWeatherDictionary[indexPath.row]?[0]
+                cell.FeelLabel.text = todayWeatherDictionary[indexPath.row]?[1]
+                cell.FeelLabel2.text = todayWeatherDictionary[indexPath.row]?[1]
+                cell.MaxTemp.text = todayWeatherDictionary[indexPath.row]?[2]
+                cell.MinTemp.text = todayWeatherDictionary[indexPath.row]?[3]
+                cell.tips.text = todayWeatherDictionary[indexPath.row]?[4]
+                cell.Date.text = todayWeatherDictionary[indexPath.row]?[5]
+                cell.AQI.text = todayWeatherDictionary[indexPath.row]?[6]
+                cell.HUmidity.text = todayWeatherDictionary[indexPath.row]?[7]
+                cell.RainPop.text = todayWeatherDictionary[indexPath.row]?[8]
+                cell.DayWeather.text = todayWeatherDictionary[indexPath.row]?[9]
+                cell.NightWeather.text = todayWeatherDictionary[indexPath.row]?[10]
+                cell.DayWindli.text = todayWeatherDictionary[indexPath.row]?[11]
+                cell.NightWindLi.text = todayWeatherDictionary[indexPath.row]?[12]
+                cell.DayWindXiang.text = todayWeatherDictionary[indexPath.row]?[13]
+                cell.NightWindXiang.text = todayWeatherDictionary[indexPath.row]?[14]
             }
         default:
             print("indexPath.section error，cellforRow超出范围")
@@ -259,6 +294,7 @@ extension MainTableViewController: CLLocationManagerDelegate {
                 }
             }
         }
+//        self.getCityData(nowCity: "西安")
     }
     ///获取全部城市名称信息
     func getCityData(nowCity: String) {
@@ -280,7 +316,7 @@ extension MainTableViewController: CLLocationManagerDelegate {
                     for i in 0..<count {
                         //遍历 将定位得到的城市名分别于列表中的城市进行对比 如果相同则获得该城市的信息 完成定位功能
                         let city = sortedKeysAndValues[i].value["citynm"].string!
-                        let id = sortedKeysAndValues[i].value["weaid"].string!
+                        let id = sortedKeysAndValues[i].value["cityid"].string!
                         if city == nowCity {
                             if appDelegate.cityInfo == "" {
                                 //将当前定位到的城市名存储到appDelegate中进行传值
@@ -288,7 +324,7 @@ extension MainTableViewController: CLLocationManagerDelegate {
                                 appDelegate.locationCityID = id
                                 self.locationcity = appDelegate.locationCity
                                 self.locationcityid = appDelegate.locationCityID
-                                print("当前城市为\(self.locationcity)")
+                                print("当前城市为\(self.locationcity)，Id为\(self.locationcityid)")
                             }
                         }
                     }
@@ -329,6 +365,7 @@ extension MainTableViewController {
         let loadingView = UIView(frame: self.view.frame)
         loadingView.tag = 121
         loadingView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.cityInfo != "" {
             loadingView.isHidden = true
@@ -336,6 +373,12 @@ extension MainTableViewController {
             loadingView.isHidden = false
         }
         self.view.addSubview(loadingView)
+        //FIXME:width
+        loadingView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(weatherSize.screen_w)
+            make.height.equalTo(weatherSize.screen_h)
+            make.center.equalTo(self.view)
+        }
         let loadingLabel = UILabel(frame: CGRect(x: 0, y: 200, width: weatherSize.screen_w, height: 100))
         loadingLabel.text = "正在定位当前所在城市..."
         loadingLabel.font = UIFont(name: "HelveticaNeue-Light", size: 16)
@@ -350,5 +393,356 @@ extension MainTableViewController {
     func BasicDataSet(){
         self.CellNumber = [0:1,1:cityInfos.count]
         Const.rowsCount = cityInfos.count
+        cellHeights = Array(repeating: Const.closeCellHeight, count: Const.rowsCount)
+    }
+    func GetWeatherData(cityid:String, row:Int){
+        
+        func WeatherForecast24hours(cityId: String){
+            let appcode:String = "278b38b210f447618a576b9f3bb051ae"
+            let host:String = "http://aliv18.data.moji.com"
+            let path:String = "/whapi/json/alicityweather/forecast24hours"
+            let method = "POST"
+            let querys = ""
+            let url = NSURL(string:host+path+querys)
+            let bodys = "cityId=\(cityId)&token=008d2ad9197090c5dddc76f583616606"
+            var request = URLRequest(url: url! as URL)
+            let bodydata:Data = bodys.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
+            
+            request.httpBody = bodydata
+            request.httpMethod = method
+            request.addValue("APPCODE \(appcode)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            print(request.allHTTPHeaderFields)
+            print(NSString(data: request.httpBody!, encoding: String.Encoding.utf8.rawValue))
+            print("当前数据：提供未来24小时逐小时天气预报")
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { (data, response, error) in
+                if error == nil{
+                    do{
+                        let json = try JSON(data: data!)
+                        self.WeatherCond = json["data"]["hourly"][1]["condition"].string!
+                        self.TempCur = json["data"]["hourly"][1]["temp"].string!
+                        self.CityName = json["data"]["city"]["name"].string!
+                        self.Humidity = json["data"]["hourly"][1]["humidity"].string!
+                        self.RainPop = json["data"]["hourly"][1]["pop"].string!
+                        self.Rain = json["data"]["hourly"][1]["qpf"].string!
+                        self.AirPress = json["data"]["hourly"][1]["pressure"].string!
+                    }
+                    catch{
+                        print("Error creating the database")
+                    }
+                }
+                else {
+                    print(error!)
+                }
+            }
+            task.resume()
+        }
+        
+        func CArLimit(cityId: String){
+            let appcode:String = "278b38b210f447618a576b9f3bb051ae"
+            let host:String = "http://aliv18.data.moji.com"
+            let path:String = "/whapi/json/alicityweather/limit"
+            let method = "POST"
+            let querys = ""
+            let url = NSURL(string:host+path+querys)
+            let bodys = "cityId=\(cityId)&token=27200005b3475f8b0e26428f9bfb13e9"
+            var request = URLRequest(url: url! as URL)
+            let bodydata:Data = bodys.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
+            
+            request.httpBody = bodydata
+            request.httpMethod = method
+            request.addValue("APPCODE \(appcode)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            print("当前数据：提供各地限行数据")
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { (data, response, error) in
+                if error == nil{
+                    do{
+                        let json = try JSON(data: data!)
+                        print(json)
+                        
+                    }
+                    catch{
+                        print("Error creating the database")
+                    }
+                }
+                else {
+                    print(error!)
+                }
+            }
+            task.resume()
+        }
+        
+        func WeatherAqiNow(cityId: String){
+            let appcode:String = "278b38b210f447618a576b9f3bb051ae"
+            let host:String = "http://aliv18.data.moji.com"
+            let path:String = "/whapi/json/alicityweather/aqi"
+            let method = "POST"
+            let querys = ""
+            let url = NSURL(string:host+path+querys)
+            let bodys = "cityId=\(cityId)&token=8b36edf8e3444047812be3a59d27bab9"
+            var request = URLRequest(url: url! as URL)
+            let bodydata:Data = bodys.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
+            
+            request.httpBody = bodydata
+            request.httpMethod = method
+            request.addValue("APPCODE \(appcode)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            print("当前数据：提供空气质量指数及分项数据")
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { (data, response, error) in
+                if error == nil{
+                    do{
+                        let json = try JSON(data: data!)
+                        self.aqi = json["data"]["aqi"]["value"].string!
+                        self.PM2_5 = json["data"]["aqi"]["pm25"].string!
+                    }
+                    catch{
+                        print("Error creating the database")
+                    }
+                }
+                else {
+                    print(error!)
+                }
+            }
+            task.resume()
+        }
+        
+        func WeatherAqiForecast5days(cityId: String){
+            let appcode:String = "278b38b210f447618a576b9f3bb051ae"
+            let host:String = "http://aliv18.data.moji.com"
+            let path:String = "/whapi/json/alicityweather/aqiforecast5days"
+            let method = "POST"
+            let querys = ""
+            let url = NSURL(string:host+path+querys)
+            let bodys = "cityId=\(cityId)&token=0418c1f4e5e66405d33556418189d2d0"
+            var request = URLRequest(url: url! as URL)
+            let bodydata:Data = bodys.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
+            
+            request.httpBody = bodydata
+            request.httpMethod = method
+            request.addValue("APPCODE \(appcode)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            print("当前数据：提供未来5天AQI数据")
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { (data, response, error) in
+                if error == nil{
+                    do{
+                        let json = try JSON(data: data!)
+                        self.date = json["data"]["aqiForecast"][1]["date"].string!
+                    }
+                    catch{
+                        print("Error creating the database")
+                    }
+                }
+                else {
+                    print(error!)
+                }
+            }
+            task.resume()
+        }
+        
+        func WeatherForecast15days(cityId: String){
+            let appcode:String = "278b38b210f447618a576b9f3bb051ae"
+            let host:String = "http://aliv18.data.moji.com"
+            let path:String = "/whapi/json/alicityweather/forecast15days"
+            let method = "POST"
+            let querys = ""
+            let url = NSURL(string:host+path+querys)
+            let bodys = "cityId=\(cityId)&token=f9f212e1996e79e0e602b08ea297ffb0"
+            var request = URLRequest(url: url! as URL)
+            let bodydata:Data = bodys.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
+            
+            request.httpBody = bodydata
+            request.httpMethod = method
+            request.addValue("APPCODE \(appcode)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            print("当前数据：提供未来15天天气预报")
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { (data, response, error) in
+                if error == nil{
+                    do{
+                        let json = try JSON(data: data!)
+                        self.TempDay = json["data"]["forecast"][1]["tempDay"].string!
+                        self.TempNight = json["data"]["forecast"][1]["tempNight"].string!
+                        self.TempAll = self.TempDay+"/"+self.TempNight
+                        self.WeatherCondDay = json["data"]["forecast"][1]["conditionDay"].string!
+                        self.WeatherCondNight = json["data"]["forecast"][1]["conditionNight"].string!
+                        self.WindDirDay = json["data"]["forecast"][1]["windDirDay"].string!
+                        self.WindLevelDay = json["data"]["forecast"][1]["windLevelDay"].string!
+                        self.WindSpeedDay = json["data"]["forecast"][1]["windSpeedDay"].string!
+                        self.WindDirNight = json["data"]["forecast"][1]["windDirNight"].string!
+                        self.WindLevelNight = json["data"]["forecast"][1]["windLevelNight"].string!
+                        self.WindSpeedNight = json["data"]["forecast"][1]["windSpeedNight"].string!
+                        //MoonPhase = json["data"]["forecast"][1]["windSpeedNight"].string!
+                        self.MoonRise = json["data"]["forecast"][1]["moonrise"].string!
+                        self.MoonSet = json["data"]["forecast"][1]["moonset"].string!
+                    }
+                    catch{
+                        print("Error creating the database")
+                    }
+                }
+                else {
+                    print(error!)
+                }
+            }
+            task.resume()
+        }
+        
+        func WeatherCurrentCondition(cityId: String){
+            let appcode:String = "278b38b210f447618a576b9f3bb051ae"
+            let host:String = "http://aliv18.data.moji.com"
+            let path:String = "/whapi/json/alicityweather/condition"
+            let method = "POST"
+            let querys = ""
+            let url = NSURL(string:host+path+querys)
+            let bodys = "cityId=\(cityId)&token=50b53ff8dd7d9fa320d3d3ca32cf8ed1"
+            var request = URLRequest(url: url! as URL)
+            let bodydata:Data = bodys.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
+            
+            request.httpBody = bodydata
+            request.httpMethod = method
+            request.addValue("APPCODE \(appcode)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            print("当前数据：提供温度、湿度、风向、风速、紫外线、气压、体感温度等实时数据")
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { (data, response, error) in
+                if error == nil{
+                    do{
+                        let json = try JSON(data: data!)
+                        self.WindDirNow = json["data"]["condition"]["windDir"].string!
+                        self.WindLevelNow = json["data"]["condition"]["windLevel"].string!
+                        self.WindSpeedNow = json["data"]["condition"]["windSpeed"].string!
+                        self.updateTime = json["data"]["condition"]["updatetime"].string!
+                        self.tips = json["data"]["condition"]["tips"].string!
+                    }
+                    catch{
+                        print("Error creating the database")
+                    }
+                }
+                else {
+                    print(error!)
+                }
+            }
+            task.resume()
+        }
+        
+        func LifeIndex(cityId: String){
+            let appcode:String = "278b38b210f447618a576b9f3bb051ae"
+            let host:String = "http://aliv18.data.moji.com"
+            let path:String = "/whapi/json/alicityweather/index"
+            let method = "POST"
+            let querys = ""
+            let url = NSURL(string:host+path+querys)
+            let bodys = "cityId=\(cityId)&token=5944a84ec4a071359cc4f6928b797f91"
+            var request = URLRequest(url: url! as URL)
+            let bodydata:Data = bodys.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
+            
+            request.httpBody = bodydata
+            request.httpMethod = method
+            request.addValue("APPCODE \(appcode)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            print("当前数据：提供各项天气生活指数")
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { (data, response, error) in
+                if error == nil{
+                    do{
+                        let json = try JSON(data: data!)
+                        self.uv = json["data"]["liveIndex"]["\(self.date)"][0]["status"].string!
+                        self.uvindex = json["data"]["liveIndex"]["\(self.date)"][0]["level"].string!
+                        self.uvtips = json["data"]["liveIndex"]["\(self.date)"][0]["desc"].string!
+                        self.ct = json["data"]["liveIndex"]["\(self.date)"][0]["desc"].string!
+                        
+                    }
+                    catch{
+                        print("Error creating the database")
+                    }
+                }
+                else {
+                    print(error!)
+                }
+            }
+            task.resume()
+        }
+        
+        func WeatherAlert(cityId: String){
+            let appcode:String = "278b38b210f447618a576b9f3bb051ae"
+            let host:String = "http://aliv18.data.moji.com"
+            let path:String = "/whapi/json/alicityweather/alert"
+            let method = "POST"
+            let querys = ""
+            let url = NSURL(string:host+path+querys)
+            let bodys = "cityId=\(cityId)&token=7ebe966ee2e04bbd8cdbc0b84f7f3bc7"
+            var request = URLRequest(url: url! as URL)
+            let bodydata:Data = bodys.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))!
+            
+            request.httpBody = bodydata
+            request.httpMethod = method
+            request.addValue("APPCODE \(appcode)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            print("当前数据：提供各地天气预警信息")
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { (data, response, error) in
+                if error == nil{
+                    do{
+                        let json = try JSON(data: data!)
+                        guard let alert = json["data"]["alert"]["content"].string
+                            else{
+                                self.Alert = "None"
+                                return
+                        }
+                        self.Alert = alert
+                    }
+                    catch{
+                        print("Error creating the database")
+                    }
+                }
+                else {
+                    print(error!)
+                }
+            }
+            task.resume()
+        }
+        if row == -1 {
+            self.todayWeatherArrayloc.append(updateTime)
+            self.todayWeatherArrayloc.append(TempCur)
+            self.todayWeatherArrayloc.append(TempDay)
+            self.todayWeatherArrayloc.append(TempNight)
+            self.todayWeatherArrayloc.append(tips)
+            self.todayWeatherArrayloc.append(date)
+            self.todayWeatherArrayloc.append(aqi)
+            self.todayWeatherArrayloc.append(Humidity)
+            self.todayWeatherArrayloc.append(RainPop)
+            self.todayWeatherArrayloc.append(WeatherCondDay + "白天温度：" + TempDay)
+            self.todayWeatherArrayloc.append(WeatherCondNight + "夜间温度：" + TempNight)
+            self.todayWeatherArrayloc.append(WindLevelDay + "风速：" + WindSpeedDay)
+            self.todayWeatherArrayloc.append(WindLevelNight + "风速：" + WindSpeedNight)
+            self.todayWeatherArrayloc.append(WindDirDay)
+            self.todayWeatherArrayloc.append(WindDirNight)
+            self.todayWeatherDictionaryloc[0] = self.todayWeatherArray
+            self.todayWeatherArrayloc = []
+        }
+        else{
+            self.todayWeatherArray.append(updateTime)
+            self.todayWeatherArray.append(TempCur)
+            self.todayWeatherArray.append(TempDay)
+            self.todayWeatherArray.append(TempNight)
+            self.todayWeatherArray.append(tips)
+            self.todayWeatherArray.append(date)
+            self.todayWeatherArray.append(aqi)
+            self.todayWeatherArray.append(Humidity)
+            self.todayWeatherArray.append(RainPop)
+            self.todayWeatherArray.append(WeatherCondDay + "白天温度：" + TempDay)
+            self.todayWeatherArray.append(WeatherCondNight + "夜间温度：" + TempNight)
+            self.todayWeatherArray.append(WindLevelDay + "风速：" + WindSpeedDay)
+            self.todayWeatherArray.append(WindLevelNight + "风速：" + WindSpeedNight)
+            self.todayWeatherArray.append(WindDirDay)
+            self.todayWeatherArray.append(WindDirNight)
+            self.todayWeatherDictionary[row] = self.todayWeatherArray
+            self.todayWeatherArray = []
+            
+        }
+        
     }
 }

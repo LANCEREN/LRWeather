@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3526FA6F215536A800E30543 /* cityidlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526FA6E215536A800E30543 /* cityidlist.swift */; };
 		3582EF5621344AED0072F4AE /* MainTableViewControllerEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3582EF5521344AED0072F4AE /* MainTableViewControllerEx.swift */; };
 		3582EF5821344DE80072F4AE /* WeatherViewControllerEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3582EF5721344DE80072F4AE /* WeatherViewControllerEx.swift */; };
 		3596EA5321363CB300123531 /* AddListEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3596EA5221363CB300123531 /* AddListEx.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3526FA6E215536A800E30543 /* cityidlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cityidlist.swift; sourceTree = "<group>"; };
 		3582EF5521344AED0072F4AE /* MainTableViewControllerEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewControllerEx.swift; sourceTree = "<group>"; };
 		3582EF5721344DE80072F4AE /* WeatherViewControllerEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerEx.swift; sourceTree = "<group>"; };
 		3596EA5221363CB300123531 /* AddListEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListEx.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				3582EF5721344DE80072F4AE /* WeatherViewControllerEx.swift */,
 				3599B16E213553A200546F40 /* AddList.swift */,
 				3596EA5221363CB300123531 /* AddListEx.swift */,
+				3526FA6E215536A800E30543 /* cityidlist.swift */,
 				35F6A7ED2132ECD100DF6AC3 /* Property.swift */,
 				35F6A7EF2132ED1700DF6AC3 /* SwiftyJSON.swift */,
 				35F6A7DC2132BDEC00DF6AC3 /* Assets.xcassets */,
@@ -216,6 +219,7 @@
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyXMLParser/SwiftyXMLParser.framework",
 				"${BUILT_PRODUCTS_DIR}/YNSearch/YNSearch.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -225,6 +229,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyXMLParser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNSearch.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,6 +253,7 @@
 				3596EA5321363CB300123531 /* AddListEx.swift in Sources */,
 				35F6A7DB2132BDEC00DF6AC3 /* LRWeather.xcdatamodeld in Sources */,
 				35F6A7D32132BDEC00DF6AC3 /* AppDelegate.swift in Sources */,
+				3526FA6F215536A800E30543 /* cityidlist.swift in Sources */,
 				35F6A7F12132ED1800DF6AC3 /* SwiftyJSON.swift in Sources */,
 				35F6A7E92132CA4F00DF6AC3 /* DemoCell.swift in Sources */,
 			);

@@ -17,6 +17,22 @@ class DemoCell: FoldingCell {
     @IBOutlet weak var LocationImage1: UIImageView!
     @IBOutlet weak var LocationImage2: UIImageView!
     @IBOutlet weak var Detail: UIButton!
+    @IBOutlet weak var UpdateTimeLabel: UILabel!
+    @IBOutlet weak var Date: UILabel!
+    @IBOutlet weak var tips: UILabel!
+    @IBOutlet weak var FeelLabel: UILabel!
+    @IBOutlet weak var MaxTemp: UILabel!
+    @IBOutlet weak var MinTemp: UILabel!
+    @IBOutlet weak var FeelLabel2: UILabel!
+    @IBOutlet weak var AQI: UILabel!
+    @IBOutlet weak var HUmidity: UILabel!
+    @IBOutlet weak var RainPop: UILabel!
+    @IBOutlet weak var DayWeather: UILabel!
+    @IBOutlet weak var NightWeather: UILabel!
+    @IBOutlet weak var DayWindli: UILabel!
+    @IBOutlet weak var NightWindLi: UILabel!
+    @IBOutlet weak var DayWindXiang: UILabel!
+    @IBOutlet weak var NightWindXiang: UILabel!
     
     var CellCityInfo: String = "--" {
         didSet {

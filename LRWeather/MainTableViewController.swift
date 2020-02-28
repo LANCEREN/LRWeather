@@ -31,8 +31,61 @@ import UIKit
 import Hero
 import CoreData
 import CoreLocation
+import StoreKit
 
 class MainTableViewController: UITableViewController {
+    
+    var todayWeatherArray : [String] = [] //
+    var todayWeatherDictionary: Dictionary<Int, [String]> = [:]  //
+    var todayWeatherArrayloc : [String] = [] //
+    var todayWeatherDictionaryloc: Dictionary<Int, [String]> = [:]  //
+    var date:String = "--"
+    var updateTime:String = "--"
+    var tips:String = "--"
+    
+    var CityName:String = "--"
+    var TempCur:String = "--"
+    var TempAll:String = "--"
+    var TempDay:String = "--"
+    var TempNight:String = "--"
+    var WeatherCond:String = "--"
+    var WeatherCondDay:String = "--"
+    var WeatherCondNight:String = "--"
+    var Humidity:String = "--"
+    var Alert:String = "--"
+    
+    var Rain:String = "--"
+    var RainPop:String = "--"
+    var AirPress:String = "--"
+    
+    var WindDirNow:String = "--"
+    var WindLevelNow:String = "--"
+    var WindSpeedNow:String = "--"
+    
+    var WindDirDay:String = "--"
+    var WindLevelDay:String = "--"
+    var WindSpeedDay:String = "--"
+    
+    var WindDirNight:String = "--"
+    var WindLevelNight:String = "--"
+    var WindSpeedNight:String = "--"
+    
+    var days:String = "--"
+    var week:String = "--"
+    var weather:String = "--"
+    var temperatureall:String = "--"
+    
+    var aqi:String = "--"
+    var PM2_5:String = "--"
+    
+    var MoonRise:String = "--"
+    var MoonSet:String = "--"
+    var MoonPhase:String = "--"
+    
+    var uv:String = "--"
+    var uvindex:String = "--"
+    var uvtips:String = "--"
+    var ct:String = "--"
     
     var currLocation: CLLocation!//当前位置(经纬度)
     let locationManager:CLLocationManager = CLLocationManager()//位置管理器
@@ -51,7 +104,7 @@ class MainTableViewController: UITableViewController {
         static var rowsCount = 10
     }
     var cellHeights: [CGFloat] = []//展开和折叠cell的高度
-    var LocalCellHeight: CGFloat = 0//localcell的高度防止错误识别
+    var LocalCellHeight: CGFloat = Const.closeCellHeight//localcell的高度防止错误识别
     
     override func viewDidLoad() {
         
@@ -74,7 +127,7 @@ class MainTableViewController: UITableViewController {
     private func setup() {
         loadingview()
         self.tableView.isScrollEnabled = false
-        cellHeights = Array(repeating: Const.closeCellHeight, count: Const.rowsCount)
+        
         tableView.estimatedRowHeight = Const.closeCellHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
@@ -136,6 +189,41 @@ class MainTableViewController: UITableViewController {
         cityView.hero.modalAnimationType = .selectBy(presenting: .fade, dismissing: .fade)
         print("tap to AddListViewController")
         self.present(cityView, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func PayAction(_ sender: Any) {
+        //建立提示窗口
+        let alertController = UIAlertController(title: "休息一下",
+                                                message: "请小格子和大橙子喝杯茶吧(ﾉ>ω<)ﾉ", preferredStyle: .alert)
+        //取消动作
+        let cancelAction = UIAlertAction(title: "取消", style:.cancel, handler: {
+            action in
+            print("clicked cancel")  //系统调试日志
+            }
+        )
+        
+        //确认动作
+        let okAction = UIAlertAction(title: "好的", style: .default, handler: {
+            action in
+            
+//            //购买信息发送
+//            let alertController = UIAlertController(title: "系统提示",
+//                                                    message: "购买成功", preferredStyle: .alert)
+//            //显示提示框
+//            self.present(alertController, animated: true, completion: nil)
+//            //两秒钟后自动消失
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+//                self.presentedViewController?.dismiss(animated: false, completion: nil)
+//
+//            }
+            
+        })
+        
+        //将取消动作和确认动作加载到提示框中
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
 }
